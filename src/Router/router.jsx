@@ -1,0 +1,78 @@
+import { createBrowserRouter } from "react-router";
+import RootLayout from "../layouts/RootLayout";
+import Home from "../Pages/Home/Home";
+import Login from "../Pages/Shared/Login";
+import PrivateRoute from "../Contexts/PrivateRoute";
+import Register from "../Pages/Shared/Register";
+import DashboardLayout from "../layouts/DashboardLayout";
+import NotFound from "../Pages/Shared/NotFound";
+import AboutUs from "../Pages/AboutUs/AboutUs";
+import ContactUs from "../Pages/ContactUs/ContactUs";
+import BlogSection from "../Pages/BlogSection/BlogSection";
+import AddProperty from "../Pages/DashboardPages/AddProperties";
+import MyProperties from "../Pages/DashboardPages/MyProperties";
+import UpdateProperty from "../Pages/DashboardPages/UpdateProperty ";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: RootLayout,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: "/register",
+        Component: Register,
+      },
+      {
+        path: "/login",
+        Component: Login,
+      },
+      {
+        path: "/blog",
+        Component: BlogSection,
+      },
+      {
+        path: "/about-us",
+        Component: AboutUs,
+      },
+      {
+        path: "/contact-us",
+        Component: ContactUs,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout> </DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      { index: true, element: <h1>hello</h1> },
+
+      {
+        path: "/dashboard/add-properties",
+        element: <AddProperty></AddProperty>,
+      },
+      {
+        path: "/dashboard/my-properties",
+        element: <MyProperties></MyProperties>,
+      },
+      {
+        path: "/dashboard/update-property/:id",
+        // element: <h1>Update Property</h1>,
+        element: <UpdateProperty />,
+      },
+    ],
+  },
+  {
+    path: "*",
+    Component: NotFound,
+  },
+]);
+
+export default router;

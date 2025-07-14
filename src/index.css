@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@tailwind utilities;
+
+@layer utilities {
+  .animate-fade-in {
+    @apply opacity-0 scale-95 transform transition-all duration-300 ease-out;
+    animation: fadeInModal 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeInModal {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  @apply bg-gradient-to-b from-blue-100 via-white to-blue-50 min-h-screen;
+}
+
+.active {
+  color: blue;
+}
+.slick-prev:before,
+.slick-next:before {
+  font-size: 25px !important;
+  color: red !important;
+}
+.slick-prev {
+  left: -0px !important;
+  z-index: 10;
+}
+.slick-next {
+  right: 4px !important;
+}
