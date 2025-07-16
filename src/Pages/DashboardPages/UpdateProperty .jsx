@@ -34,7 +34,7 @@ const UpdateProperty = () => {
     if (property) {
       setValue("title", property.title);
       setValue("location", property.location);
-      setValue("priceRange", property.priceRange);
+      setValue("priceRange", property.price);
       setValue("agentName", property.agentName);
       setValue("agentEmail", property.agentEmail);
       setPreviewImg(property.image);

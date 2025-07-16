@@ -12,6 +12,12 @@ import BlogSection from "../Pages/BlogSection/BlogSection";
 import AddProperty from "../Pages/DashboardPages/AddProperties";
 import MyProperties from "../Pages/DashboardPages/MyProperties";
 import UpdateProperty from "../Pages/DashboardPages/UpdateProperty ";
+import WishList from "../Pages/DashboardPages/User/WishList";
+import ManageProperties from "../Pages/DashboardPages/Admin/ManageProperties";
+import ManageUsers from "../Pages/DashboardPages/Admin/ManageUsers";
+import AllProperties from "../Pages/AllProperties/AllProperies";
+import PropertyDetails from "../Pages/AllProperties/PropertyDetails";
+import MakeOffer from "../Pages/DashboardPages/User/MakeOffer";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +27,22 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
+      },
+      {
+        path: "/properties",
+        element: (
+          <PrivateRoute>
+            <AllProperties></AllProperties>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/property-details/:id",
+        element: (
+          <PrivateRoute>
+            <PropertyDetails></PropertyDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/register",
@@ -59,13 +81,28 @@ const router = createBrowserRouter([
         element: <AddProperty></AddProperty>,
       },
       {
+        path: "/dashboard/wishlist",
+        element: <WishList></WishList>,
+      },
+      {
+        path: "/dashboard/make-offer/:id",
+        element: <MakeOffer></MakeOffer>,
+      },
+      {
         path: "/dashboard/my-properties",
         element: <MyProperties></MyProperties>,
       },
       {
         path: "/dashboard/update-property/:id",
-        // element: <h1>Update Property</h1>,
         element: <UpdateProperty />,
+      },
+      {
+        path: "/dashboard/manage-property",
+        element: <ManageProperties></ManageProperties>,
+      },
+      {
+        path: "/dashboard/manage-users",
+        element: <ManageUsers></ManageUsers>,
       },
     ],
   },
