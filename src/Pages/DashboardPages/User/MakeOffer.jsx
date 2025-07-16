@@ -1,179 +1,199 @@
-// src/Pages/DashboardPages/User/MakeOffer.jsx
+// MakeOffer.jsx
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth"; // adjust path as needed
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { useEffect } from "react";
+import useAuth from "../../../hooks/useAuth";
 import useUserRole from "../../../hooks/useUserRole";
 
 const MakeOffer = () => {
-  const { id } = useParams(); // wishlist item ID (or property ID, adjust backend accordingly)
+  const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { role } = useUserRole(); // Get user role from context
-  /* ─────────────────────────────────────────────
-     1️⃣  Block agents & admins immediately
-  ───────────────────────────────────────────── */
+  const { role: userRole, roleLoading } = useUserRole();
+  console.log(userRole);
+
+  const [property, setProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  // Fetch property details by propertyId
   useEffect(() => {
-    if (role && role !== "user") {
-      Swal.fire("Access Denied", "Only users can make offers.", "error");
-      navigate("/dashboard"); // redirect away
+    async function fetchProperty() {
+      try {
+        const res = await axios.get(`http://localhost:5000/property/${id}`);
+        setProperty(res.data);
+      } catch (err) {
+        Swal.fire("Error", "Failed to load property details.", "error");
+      } finally {
+        setLoading(false);
+      }
     }
-  }, [role, navigate]);
+    fetchProperty();
+  }, [id]);
 
-  /* ─────────────────────────────────────────────
-     2️⃣  Fetch wishlist item (incl. property data)
-  ───────────────────────────────────────────── */
-  const { data: property, isLoading } = useQuery({
-    queryKey: ["wishlist-item", id],
-    queryFn: async () => {
-      // ‼️ Adjust endpoint to return full property details
-      const { data } = await axios.get(
-        `http://localhost:5000/wishlist-item/${id}`
-      );
-      return data; // { title, location, agentName, price, ... }
-    },
-  });
-
-  /* ─────────────────────────────────────────────
-     3️⃣  Offer Mutation
-  ───────────────────────────────────────────── */
-  const offerMutation = useMutation({
-    mutationFn: async (offerData) => {
-      const { data } = await axios.post(
-        "http://localhost:5000/offers",
-        offerData
-      );
-      return data;
-    },
-    onSuccess: () => {
-      Swal.fire("Success!", "Offer placed successfully.", "success");
-      navigate("/dashboard/property-bought");
-    },
-    onError: (err) => {
-      Swal.fire(
-        "Failed",
-        err?.response?.data?.message || "Could not place offer.",
-        "error"
-      );
-    },
-  });
-
-  /* ─────────────────────────────────────────────
-     4️⃣  Handle Submit
-  ───────────────────────────────────────────── */
-  const handleOffer = (e) => {
-    e.preventDefault();
+  // Validate that offerAmount is within minPrice and maxPrice
+  const onSubmit = async (data) => {
     if (!property) return;
 
-    const form = e.target;
-    const offerAmount = parseFloat(form.offerAmount.value);
-
-    /* Parse "min - max" format (e.g. "5000 - 8000") */
-    const [min, max] = property.price
-      .split("-")
-      .map((p) => parseFloat(p.trim()));
-
-    if (offerAmount < min || offerAmount > max) {
-      return Swal.fire(
-        "Invalid Amount",
-        `Your offer must be between ${min} and ${max}.`,
-        "warning"
+    const offerAmount = Number(data.offerAmount);
+    if (offerAmount < property.minPrice || offerAmount > property.maxPrice) {
+      Swal.fire(
+        "Invalid Offer",
+        `Offer amount must be between $${property.minPrice} and $${property.maxPrice}.`,
+        "error"
       );
+      return;
     }
 
-    const offerData = {
-      propertyId: property.propertyId || property._id, // backend expects this
-      title: property.title,
-      location: property.location,
+    if (userRole !== "user") {
+      Swal.fire("Unauthorized", "Only users can make offers.", "error");
+      return;
+    }
+
+    // Prepare offer object
+    const offerPayload = {
+      propertyId: property._id,
+      propertyTitle: property.title,
+      propertyLocation: property.location,
       agentName: property.agentName,
-      buyerName: user.displayName,
+      offerAmount: offerAmount,
       buyerEmail: user.email,
-      offerAmount,
-      buyingDate: form.buyingDate.value,
-      status: "pending",
+      buyerName: user.displayName || user.name,
+      buyingDate: data.buyingDate,
+      status: "pending", // optional, server will add it anyway
+      createdAt: new Date(),
     };
 
-    offerMutation.mutate(offerData);
+    try {
+      await axios.post("http://localhost:5000/offers", offerPayload);
+      Swal.fire(
+        "Success",
+        "Your offer has been submitted and is pending review.",
+        "success"
+      );
+      navigate("/property-bought");
+    } catch (err) {
+      Swal.fire("Error", "Failed to submit your offer.", "error");
+    }
   };
 
-  /* ─────────────────────────────────────────────
-     5️⃣  UI
-  ───────────────────────────────────────────── */
-  if (isLoading)
-    return <p className="text-center mt-10">Loading property...</p>;
-
-  if (!property) {
-    return (
-      <p className="text-center mt-10 text-red-600">Property not found.</p>
-    );
-  }
+  if (loading) return <p>Loading property details...</p>;
+  if (!property) return <p>Property not found.</p>;
+  if (roleLoading) return <p>Loading role...</p>;
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">Make an Offer</h2>
+    <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
+      <h2 className="text-xl font-bold mb-4">Make an Offer</h2>
 
-      <form onSubmit={handleOffer} className="space-y-4">
-        {/* Read‑only fields */}
-        <input
-          type="text"
-          readOnly
-          value={property?.title || ""}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="text"
-          readOnly
-          value={property?.location || ""}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="text"
-          readOnly
-          value={property?.agentName || ""}
-          className="input input-bordered w-full"
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Readonly property fields */}
+        <div>
+          <label className="block font-semibold">Property Title</label>
+          <input
+            type="text"
+            value={property.title}
+            readOnly
+            className="input input-bordered w-full"
+          />
+        </div>
 
-        {/* Offer amount */}
-        <input
-          type="number"
-          step="0.01"
-          name="offerAmount"
-          placeholder={`Offer Amount (${property.price})`}
-          className="input input-bordered w-full"
-          required
-        />
+        <div>
+          <label className="block font-semibold">Property Location</label>
+          <input
+            type="text"
+            value={property.location}
+            readOnly
+            className="input input-bordered w-full"
+          />
+        </div>
 
-        {/* Read‑only buyer info */}
-        <input
-          type="text"
-          readOnly
-          value={user.displayName || ""}
-          className="input input-bordered w-full"
-        />
-        <input
-          type="email"
-          readOnly
-          value={user.email || ""}
-          className="input input-bordered w-full"
-        />
+        <div>
+          <label className="block font-semibold">Agent Name</label>
+          <input
+            type="text"
+            value={property.agentName}
+            readOnly
+            className="input input-bordered w-full"
+          />
+        </div>
 
-        {/* Date */}
-        <input
-          type="date"
-          name="buyingDate"
-          className="input input-bordered w-full"
-          required
-        />
+        {/* Offer amount input */}
+        <div>
+          <label className="block font-semibold">Offer Amount ($)</label>
+          <input
+            type="number"
+            step="0.01"
+            {...register("offerAmount", {
+              required: "Offer amount is required",
+              min: {
+                value: property.minPrice,
+                message: `Offer must be at least $${property.minPrice}`,
+              },
+              max: {
+                value: property.maxPrice,
+                message: `Offer must be at most $${property.maxPrice}`,
+              },
+            })}
+            className="input input-bordered w-full"
+          />
+          {errors.offerAmount && (
+            <p className="text-red-600 text-sm mt-1">
+              {errors.offerAmount.message}
+            </p>
+          )}
+        </div>
 
-        {/* Submit */}
+        {/* Readonly buyer info */}
+        <div>
+          <label className="block font-semibold">Buyer Email</label>
+          <input
+            type="email"
+            value={user.email}
+            readOnly
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold">Buyer Name</label>
+          <input
+            type="text"
+            value={user.displayName || user.name}
+            readOnly
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        {/* Buying date input */}
+        <div>
+          <label className="block font-semibold">Buying Date</label>
+          <input
+            type="date"
+            {...register("buyingDate", {
+              required: "Buying date is required",
+            })}
+            className="input input-bordered w-full"
+          />
+          {errors.buyingDate && (
+            <p className="text-red-600 text-sm mt-1">
+              {errors.buyingDate.message}
+            </p>
+          )}
+        </div>
+
         <button
           type="submit"
-          disabled={offerMutation.isLoading}
-          className="btn bg-blue-600 hover:bg-blue-700 text-white w-full"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full"
         >
-          {offerMutation.isLoading ? "Offering..." : "Offer"}
+          Offer
         </button>
       </form>
     </div>

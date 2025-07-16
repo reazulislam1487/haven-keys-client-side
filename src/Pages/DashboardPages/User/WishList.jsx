@@ -1,181 +1,96 @@
+// Wishlist.jsx
 import React from "react";
-import { useParams, useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
+import { Link } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import Swal from "sweetalert2";
 import axios from "axios";
+import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 
-const MakeOffer = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const Wishlist = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const {
-    data: property,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["wishlistItem", id],
+  const { data: wishlistData, isLoading } = useQuery({
+    queryKey: ["wishlist", user?.email],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/wishlist-item/${id}`);
-      return res.data;
-    },
-    enabled: !!id,
-  });
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
-  const offerMutation = useMutation({
-    mutationFn: async (offerData) => {
-      const res = await axios.post("http://localhost:5000/offers", offerData);
-      return res.data;
-    },
-    onSuccess: () => {
-      Swal.fire("Success", "Your offer has been submitted!", "success");
-      queryClient.invalidateQueries(["propertyBought", user?.email]);
-      navigate("/dashboard/property-bought");
-    },
-    onError: (err) => {
-      Swal.fire("Error", err.message || "Failed to send offer", "error");
-    },
-  });
-
-  const onSubmit = (data) => {
-    const [minPrice, maxPrice] = property.price
-      .split("-")
-      .map((p) => parseInt(p.trim()));
-
-    const offer = parseInt(data.offerAmount);
-
-    if (offer < minPrice || offer > maxPrice) {
-      return Swal.fire(
-        "Invalid Offer",
-        `Offer must be between ${minPrice} and ${maxPrice}`,
-        "warning"
+      const res = await axios.get(
+        `http://localhost:5000/wishlist?email=${user?.email}`
       );
-    }
+      console.log("Wishlist Response:", res.data);
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
 
-    const offerData = {
-      propertyId: id,
-      propertyTitle: property.title,
-      propertyLocation: property.location,
-      agentName: property.agentName,
-      offerAmount: offer,
-      buyerEmail: user.email,
-      buyerName: user.displayName,
-      buyingDate: data.buyingDate,
-      status: "pending",
-    };
+  const wishlist = Array.isArray(wishlistData) ? wishlistData : [];
 
-    offerMutation.mutate(offerData);
-  };
+  const removeMutation = useMutation({
+    mutationFn: async (id) =>
+      await axios.delete(`http://localhost:5000/wishlist/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["wishlist"]);
+      Swal.fire("Removed!", "Property removed from wishlist.", "success");
+    },
+  });
 
-  if (isLoading)
-    return <p className="text-center mt-10">Loading property...</p>;
-  if (isError || !property)
-    return <p className="text-red-500 text-center">Property not found.</p>;
+  if (isLoading) return <p className="text-center">Loading wishlist...</p>;
+  if (!Array.isArray(wishlist))
+    return <p className="text-center text-red-500">Failed to load wishlist.</p>;
+  if (wishlist.length === 0)
+    return <p className="text-center">No wishlist items found.</p>;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">Make an Offer</h2>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-5 bg-white p-6 rounded shadow"
-      >
-        <div>
-          <label className="font-semibold">Property Title</label>
-          <input
-            type="text"
-            value={property.title}
-            readOnly
-            className="input input-bordered w-full bg-gray-100"
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {wishlist.map((item) => (
+        <div key={item._id} className="bg-white p-4 rounded-xl shadow">
+          <img
+            src={item.image || item.propertyImage}
+            alt="Property"
+            className="rounded-lg h-40 w-full object-cover"
           />
-        </div>
-
-        <div>
-          <label className="font-semibold">Location</label>
-          <input
-            type="text"
-            value={property.location}
-            readOnly
-            className="input input-bordered w-full bg-gray-100"
-          />
-        </div>
-
-        <div>
-          <label className="font-semibold">Agent Name</label>
-          <input
-            type="text"
-            value={property.agentName}
-            readOnly
-            className="input input-bordered w-full bg-gray-100"
-          />
-        </div>
-
-        <div>
-          <label className="font-semibold">Offer Amount (৳)</label>
-          <input
-            type="number"
-            {...register("offerAmount", {
-              required: "Offer amount is required",
-            })}
-            placeholder={`Between ${property.price}`}
-            className="input input-bordered w-full"
-          />
-          {errors.offerAmount && (
-            <p className="text-red-500">{errors.offerAmount.message}</p>
+          <h3 className="text-lg font-semibold mt-2">
+            {item.title || item.propertyTitle}
+          </h3>
+          <p>{item.propertyLocation || "Location not available"}</p>
+          <p className="text-sm text-gray-600">
+            Agent: {item.agentName || "Unknown"}
+          </p>
+          {item.agentImage && (
+            <img
+              src={item.agentImage}
+              alt="Agent"
+              className="w-10 h-10 rounded-full"
+            />
           )}
-        </div>
-
-        <div>
-          <label className="font-semibold">Your Email</label>
-          <input
-            type="email"
-            value={user.email}
-            readOnly
-            className="input input-bordered w-full bg-gray-100"
-          />
-        </div>
-
-        <div>
-          <label className="font-semibold">Your Name</label>
-          <input
-            type="text"
-            value={user.displayName}
-            readOnly
-            className="input input-bordered w-full bg-gray-100"
-          />
-        </div>
-
-        <div>
-          <label className="font-semibold">Buying Date</label>
-          <input
-            type="date"
-            {...register("buyingDate", { required: "Buying date is required" })}
-            className="input input-bordered w-full"
-          />
-          {errors.buyingDate && (
-            <p className="text-red-500">{errors.buyingDate.message}</p>
+          {item.verified !== undefined && (
+            <p className="mt-1">
+              Verification: {item.verified ? "✅ Verified" : "❌ Not Verified"}
+            </p>
           )}
-        </div>
+          <p className="text-blue-600">
+            Price Range:{" "}
+            {item.minPrice && item.maxPrice
+              ? `$${item.minPrice} - $${item.maxPrice}`
+              : item.price || "Not Available"}
+          </p>
 
-        <button
-          type="submit"
-          disabled={offerMutation.isLoading}
-          className="btn bg-blue-600 text-white hover:bg-blue-700 w-full"
-        >
-          {offerMutation.isLoading ? "Submitting..." : "Send Offer"}
-        </button>
-      </form>
+          <div className="flex justify-between items-center mt-4">
+            <Link to={`/dashboard/make-offer/${item.propertyId}`}>
+              <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                Make Offer
+              </button>
+            </Link>
+            <button
+              onClick={() => removeMutation.mutate(item._id)}
+              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default MakeOffer;
+export default Wishlist;
