@@ -2,16 +2,29 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const SocialLogin = () => {
   const { signInWithGoogle } = useContext(AuthContext);
   const location = useLocation();
+  const instance = useAxiosSecure();
+  const { user } = useAuth();
+
   const navigate = useNavigate();
   const from = location.state || "/";
   // const from = location.state?.from?.pathname || "/";
   const handleGoogleLogin = () => {
     signInWithGoogle()
-      .then(() => {
+      .then(async () => {
+        /* 2‑B  Persist user in your own DB */
+        await instance.post(`/users`, {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          role: "user",
+          fraud: false,
+        });
         Swal.fire({
           title: "Good job!",
           text: "Login successful",
