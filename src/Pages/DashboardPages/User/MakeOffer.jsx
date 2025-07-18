@@ -64,7 +64,9 @@ const MakeOffer = () => {
       propertyTitle: property.title,
       propertyLocation: property.location,
       agentName: property.agentName,
+      agentEmail: property.agentEmail,
       offerAmount: offerAmount,
+      propertyImage: property.image || property.propertyImage,
       buyerEmail: user.email,
       buyerName: user.displayName || user.name,
       buyingDate: data.buyingDate,
@@ -79,7 +81,7 @@ const MakeOffer = () => {
         "Your offer has been submitted and is pending review.",
         "success"
       );
-      navigate("/property-bought");
+      navigate("/dashboard/property-bought");
     } catch (err) {
       Swal.fire("Error", "Failed to submit your offer.", "error");
     }

@@ -35,33 +35,51 @@ const AllProperties = () => {
             />
 
             <div className="p-4 flex-1 flex flex-col">
+              {/* Title & Location */}
               <h3 className="text-xl font-bold text-gray-900 mb-1">
                 {property.title}
               </h3>
               <p className="text-gray-600 mb-1">📍 {property.location}</p>
 
+              {/* Agent Info */}
               <div className="flex items-center gap-2 my-2">
                 <img
                   src={property.image || "/default-agent.jpg"}
                   alt={property.agentName}
                   className="w-8 h-8 rounded-full object-cover"
                 />
-                <p className="text-sm font-medium text-gray-800">
-                  {property.agentName}
-                </p>
+                <div>
+                  <p className="text-sm font-medium text-gray-800">
+                    {property.agentName}
+                  </p>
+                  <p className="text-xs text-gray-500">{property.agentEmail}</p>
+                </div>
               </div>
 
+              {/* Price Range */}
               <p className="text-sm mb-2">
                 💰{" "}
                 <span className="font-medium">
-                  {property.price || property.priceRange}
+                  ${property.minPrice} - ${property.maxPrice}
                 </span>
               </p>
 
+              {/* Status */}
               <p className="text-green-600 text-xs font-semibold uppercase">
                 ✅ {property.status}
               </p>
 
+              {/* Created Date */}
+              <p className="text-gray-400 text-xs mt-1">
+                🗓️{" "}
+                {new Date(property.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
+
+              {/* Details Link */}
               <Link
                 to={`/property-details/${property._id}`}
                 className="mt-auto btn btn-sm bg-blue-600 text-white hover:bg-blue-700 w-full rounded-md"

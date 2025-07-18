@@ -38,7 +38,8 @@ const PropertyDetails = () => {
         userEmail: user?.email,
         title: property.title,
         image: property.image,
-        price: property.price,
+        minPrice: property.minPrice,
+        maxPrice: property.maxPrice,
       });
     },
     onSuccess: () =>
@@ -80,23 +81,47 @@ const PropertyDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
+      {/* Property Image */}
       <img
         src={property.image}
         alt={property.title}
         className="w-full h-64 object-cover rounded-xl mb-6"
       />
+
+      {/* Title and Location */}
       <h2 className="text-3xl font-bold mb-2">{property.title}</h2>
       <p className="text-gray-600 mb-2">📍 {property.location}</p>
+
+      {/* Price Range */}
       <p className="text-lg text-green-600 font-semibold mb-4">
-        💰 {property.price}
+        💰 ${property.minPrice} - ${property.maxPrice}
       </p>
+
+      {/* Description */}
       <p className="mb-6 text-gray-800">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
         vel...
       </p>
 
-      <p className="text-sm text-gray-600 mb-6">Agent: {property.agentName}</p>
+      {/* Agent Info */}
+      <p className="text-sm text-gray-600 mb-1">
+        🧑 Agent: <span className="font-medium">{property.agentName}</span>
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        ✉️ Email: <span className="font-medium">{property.agentEmail}</span>
+      </p>
 
+      {/* Created Date */}
+      <p className="text-sm text-gray-500 mb-6">
+        🗓️ Posted on:{" "}
+        {new Date(property.createdAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </p>
+
+      {/* Add to Wishlist Button */}
       <button
         onClick={handleAddToWishlist}
         className="btn bg-pink-600 text-white hover:bg-pink-700"
@@ -106,6 +131,7 @@ const PropertyDetails = () => {
 
       <hr className="my-10" />
 
+      {/* Reviews Section */}
       <div>
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold">Reviews</h3>

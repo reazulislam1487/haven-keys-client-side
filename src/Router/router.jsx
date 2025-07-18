@@ -20,6 +20,8 @@ import PropertyDetails from "../Pages/AllProperties/PropertyDetails";
 import MakeOffer from "../Pages/DashboardPages/User/MakeOffer";
 import MyReviews from "../Pages/DashboardPages/User/MyReviews";
 import ManageReviews from "../Pages/DashboardPages/Admin/ManageReviews";
+import BoughtProperties from "../Pages/DashboardPages/User/BoughtProperties ";
+import RequestedOffers from "../Pages/DashboardPages/RequestedOffers";
 
 const router = createBrowserRouter([
   {
@@ -83,8 +85,20 @@ const router = createBrowserRouter([
         element: <AddProperty></AddProperty>,
       },
       {
+        path: "/dashboard/my-requests",
+        element: <RequestedOffers></RequestedOffers>,
+      },
+      {
         path: "/dashboard/wishlist",
         element: <WishList></WishList>,
+      },
+      {
+        path: "/dashboard/make-offer/:id",
+        element: <MakeOffer></MakeOffer>,
+      },
+      {
+        path: "/dashboard/property-bought",
+        element: <BoughtProperties></BoughtProperties>,
       },
       {
         path: "/dashboard/make-offer/:id",
