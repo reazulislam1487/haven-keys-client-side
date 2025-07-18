@@ -9,7 +9,7 @@ const SocialLogin = () => {
   const { signInWithGoogle } = useContext(AuthContext);
   const location = useLocation();
   const instance = useAxiosSecure();
-  const { user } = useAuth();
+  const { user, setLoading } = useAuth();
 
   const navigate = useNavigate();
   const from = location.state || "/";
@@ -19,7 +19,7 @@ const SocialLogin = () => {
       .then(async () => {
         /* 2‑B  Persist user in your own DB */
         await instance.post(`/users`, {
-          name: user.displayName,
+          name: user.displayName || "Anonymous",
           email: user.email,
           photoURL: user.photoURL,
           role: "user",
@@ -32,6 +32,7 @@ const SocialLogin = () => {
           timer: 1500,
         });
         navigate(from);
+        setLoading(false);
       })
       .catch((error) => {
         Swal.fire({

@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleAuthprovider);
   };
   const signOutUser = () => {
-    setLoading(true);
+    // setLoading(true);
     return signOut(auth);
   };
   useEffect(() => {

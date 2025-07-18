@@ -43,7 +43,7 @@ const AddProperty = () => {
     }
   };
 
-  const onSubmit = async ({ title, location, price }) => {
+  const onSubmit = async ({ title, location, minPrice, maxPrice }) => {
     if (!imageURL) {
       return Swal.fire(
         "Hold on!",
@@ -55,7 +55,8 @@ const AddProperty = () => {
     const propertyData = {
       title,
       location,
-      price,
+      minPrice,
+      maxPrice,
       image: imageURL,
       agentName: user.displayName,
       agentEmail: user.email,
@@ -123,17 +124,42 @@ const AddProperty = () => {
           <label className="label font-semibold text-[#2D3436]">
             Price Range
           </label>
-          <input
-            type="text"
-            placeholder="Ex: $100,000 - $200,000"
-            className={`input input-bordered w-full rounded-md ${
-              errors.price ? "border-[#E74C3C]" : "border-[#00B894]"
-            }`}
-            {...register("price", { required: "Price is required" })}
-          />
-          {errors.price && (
-            <p className="text-[#E74C3C] text-sm">{errors.price.message}</p>
-          )}
+          <div className="flex space-x-4">
+            <input
+              type="text"
+              placeholder="minPrice: $100,000"
+              className={`input input-bordered w-full rounded-md ${
+                errors.minPrice ? "border-[#E74C3C]" : "border-[#00B894]"
+              }`}
+              {...register("minPrice", {
+                required: "Price is required",
+                valueAsNumber: true,
+                min: { value: 0, message: "Price must be positive" },
+              })}
+            />
+            {errors.minPrice && (
+              <p className="text-[#E74C3C] text-sm">
+                {errors.minPrice.message}
+              </p>
+            )}
+            <input
+              type="text"
+              placeholder="maxPrice: $200,000"
+              className={`input input-bordered w-full rounded-md ${
+                errors.maxPrice ? "border-[#E74C3C]" : "border-[#00B894]"
+              }`}
+              {...register("maxPrice", {
+                required: "Price is required",
+                valueAsNumber: true,
+                min: { value: 0, message: "Price must be positive" },
+              })}
+            />
+            {errors.maxPrice && (
+              <p className="text-[#E74C3C] text-sm">
+                {errors.maxPrice.message}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Image Upload */}

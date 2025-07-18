@@ -8,11 +8,7 @@ const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const defaultAvatar = "https://www.w3schools.com/howto/img_avatar.png";
-  // const [imgSrc, setImgSrc] = useState(user?.photoURL || defaultAvatar);
 
-  // useEffect(() => {
-  //   setImgSrc(user?.photoURL || defaultAvatar);
-  // }, [user]);
   console.log(user);
   const handleLogout = () => {
     Swal.fire({
