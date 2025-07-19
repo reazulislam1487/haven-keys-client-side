@@ -22,6 +22,8 @@ import MyReviews from "../Pages/DashboardPages/User/MyReviews";
 import ManageReviews from "../Pages/DashboardPages/Admin/ManageReviews";
 import BoughtProperties from "../Pages/DashboardPages/User/BoughtProperties ";
 import RequestedOffers from "../Pages/DashboardPages/RequestedOffers";
+import Payment from "../Pages/DashboardPages/User/Payment";
+import SoldProperties from "../Pages/DashboardPages/SoldProperties";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +91,10 @@ const router = createBrowserRouter([
         element: <RequestedOffers></RequestedOffers>,
       },
       {
+        path: "/dashboard/agent-paid-properties/:email",
+        element: <SoldProperties></SoldProperties>,
+      },
+      {
         path: "/dashboard/wishlist",
         element: <WishList></WishList>,
       },
@@ -101,8 +107,8 @@ const router = createBrowserRouter([
         element: <BoughtProperties></BoughtProperties>,
       },
       {
-        path: "/dashboard/make-offer/:id",
-        element: <MakeOffer></MakeOffer>,
+        path: "/dashboard/payment/:id",
+        element: <Payment></Payment>,
       },
       {
         path: "/dashboard/my-reviews",

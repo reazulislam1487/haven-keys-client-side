@@ -156,7 +156,7 @@ const Sidebar = () => {
       label: "My Properties",
     },
     {
-      path: "/dashboard/my-sold-properties",
+      path: "/dashboard/agent-paid-properties/:email",
       icon: <FiBarChart2 />,
       label: "Sold Summary",
     },
