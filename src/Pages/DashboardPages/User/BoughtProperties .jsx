@@ -98,14 +98,25 @@ const PropertyBought = () => {
             </button>
           )}
 
-          {item.status === "bought" && item.transactionId && (
-            <p className="mt-3 text-sm text-gray-800">
-              🧾 Transaction ID:{" "}
-              <span className="text-blue-700 font-semibold">
-                {item.transactionId}
-              </span>
-            </p>
+          {item.status === "bought" && (
+            <div>
+              <p className="mt-3 font-medium text-gray-800">
+                🧾 Txn ID:{" "}
+                <span
+                  className="text-blue-700 text-sm font-semibold cursor-pointer"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      item?.transactionId?.transactionId
+                    )
+                  }
+                  title="Click to copy"
+                >
+                  {item?.transactionId?.transactionId}
+                </span>
+              </p>
+            </div>
           )}
+
         </div>
       ))}
     </div>

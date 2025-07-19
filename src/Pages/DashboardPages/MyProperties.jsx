@@ -135,8 +135,12 @@ const MyProperties = () => {
                 </span>
               </p>
 
-              <p className="text-sm text-[#2D3436] my-1">
-                💰 <strong>Price:</strong> {property.price}
+              {/* Price Range */}
+              <p className="text-sm mb-2">
+                💰{" "}
+                <span className="font-medium">
+                  ${property.minPrice} - ${property.maxPrice}
+                </span>
               </p>
 
               {/* Buttons */}

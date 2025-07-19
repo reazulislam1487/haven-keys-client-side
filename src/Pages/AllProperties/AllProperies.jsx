@@ -2,8 +2,10 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const AllProperties = () => {
+  const { user } = useAuth();
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["verified-properties"],
     queryFn: async () => {
@@ -44,7 +46,7 @@ const AllProperties = () => {
               {/* Agent Info */}
               <div className="flex items-center gap-2 my-2">
                 <img
-                  src={property.image || "/default-agent.jpg"}
+                  src={user?.photoURL || "/default-agent.jpg"}
                   alt={property.agentName}
                   className="w-8 h-8 rounded-full object-cover"
                 />

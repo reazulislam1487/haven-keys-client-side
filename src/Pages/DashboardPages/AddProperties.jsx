@@ -16,9 +16,13 @@ const AddProperty = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
     reset,
   } = useForm();
+
+  const minPrice = watch("minPrice");
+  const maxPrice = watch("maxPrice");
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -44,6 +48,14 @@ const AddProperty = () => {
   };
 
   const onSubmit = async ({ title, location, minPrice, maxPrice }) => {
+    if (minPrice > maxPrice) {
+      return Swal.fire(
+        "Validation Error",
+        "Min price cannot exceed max price",
+        "error"
+      );
+    }
+
     if (!imageURL) {
       return Swal.fire(
         "Hold on!",
@@ -99,7 +111,9 @@ const AddProperty = () => {
             {...register("title", { required: "Title is required" })}
           />
           {errors.title && (
-            <p className="text-[#E74C3C] text-sm">{errors.title.message}</p>
+            <p className="text-[#E74C3C] text-sm mt-1">
+              {errors.title.message}
+            </p>
           )}
         </div>
 
@@ -115,50 +129,72 @@ const AddProperty = () => {
             {...register("location", { required: "Location is required" })}
           />
           {errors.location && (
-            <p className="text-[#E74C3C] text-sm">{errors.location.message}</p>
+            <p className="text-[#E74C3C] text-sm mt-1">
+              {errors.location.message}
+            </p>
           )}
         </div>
 
-        {/* Price */}
+        {/* Price Range */}
         <div>
           <label className="label font-semibold text-[#2D3436]">
             Price Range
           </label>
-          <div className="flex space-x-4">
-            <input
-              type="text"
-              placeholder="minPrice: $100,000"
-              className={`input input-bordered w-full rounded-md ${
-                errors.minPrice ? "border-[#E74C3C]" : "border-[#00B894]"
-              }`}
-              {...register("minPrice", {
-                required: "Price is required",
-                valueAsNumber: true,
-                min: { value: 0, message: "Price must be positive" },
-              })}
-            />
-            {errors.minPrice && (
-              <p className="text-[#E74C3C] text-sm">
-                {errors.minPrice.message}
-              </p>
-            )}
-            <input
-              type="text"
-              placeholder="maxPrice: $200,000"
-              className={`input input-bordered w-full rounded-md ${
-                errors.maxPrice ? "border-[#E74C3C]" : "border-[#00B894]"
-              }`}
-              {...register("maxPrice", {
-                required: "Price is required",
-                valueAsNumber: true,
-                min: { value: 0, message: "Price must be positive" },
-              })}
-            />
-            {errors.maxPrice && (
-              <p className="text-[#E74C3C] text-sm">
-                {errors.maxPrice.message}
-              </p>
-            )}
+          <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+            {/* Min Price */}
+            <div className="w-full">
+              <input
+                type="number"
+                step="any"
+                placeholder="Min Price ($)"
+                className={`input input-bordered w-full rounded-md ${
+                  errors.minPrice ? "border-[#E74C3C]" : "border-[#00B894]"
+                }`}
+                {...register("minPrice", {
+                  required: "Min price is required",
+                  valueAsNumber: true,
+                  min: { value: 0, message: "Min price must be positive" },
+                  validate: (value) =>
+                    !maxPrice ||
+                    value <= maxPrice ||
+                    "Min price cannot exceed max price",
+                })}
+              />
+              {errors.minPrice && (
+                <p className="text-[#E74C3C] text-sm mt-1">
+                  {errors.minPrice.message}
+                </p>
+              )}
+            </div>
+
+            {/* Max Price */}
+            <div className="w-full">
+              <input
+                type="number"
+                step="any"
+                placeholder="Max Price ($)"
+                className={`input input-bordered w-full rounded-md ${
+                  errors.maxPrice ? "border-[#E74C3C]" : "border-[#00B894]"
+                }`}
+                {...register("maxPrice", {
+                  required: "Max price is required",
+                  valueAsNumber: true,
+                  min: {
+                    value: minPrice || 0,
+                    message: "Max price must be positive",
+                  },
+                  validate: (value) =>
+                    !minPrice ||
+                    value >= minPrice ||
+                    "Max price must be greater than or equal to Min price",
+                })}
+              />
+              {errors.maxPrice && (
+                <p className="text-[#E74C3C] text-sm mt-1">
+                  {errors.maxPrice.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
 

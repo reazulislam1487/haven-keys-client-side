@@ -239,14 +239,14 @@ const PaymentForm = () => {
         const paymentRes = await axiosSecure.post("/payments", paymentData);
 
         if (paymentRes.data.insertedId) {
-          // ✅ Step 5: Update project status to "paid"
-          await axiosSecure.patch(`/project-status/${id}`);
+          // ✅ Step 5: Update project status to "bought"
+          await axiosSecure.patch(`/project-status/${id}`, { transactionId });
 
           await Swal.fire({
             icon: "success",
             title: "Payment Successful!",
             html: `<strong>Transaction ID:</strong> <code>${transactionId}</code>`,
-            confirmButtonText: "Go to My Properties",
+            confirmButtonText: "Go to My bought Properties",
           });
 
           navigate("/dashboard/property-bought");
