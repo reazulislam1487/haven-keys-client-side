@@ -1,21 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageUsers = () => {
   const queryClient = useQueryClient();
+  const instance = useAxiosSecure();
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/users");
+      const res = await instance.get("/users");
       return res.data;
     },
   });
 
   const handleAction = async (type, id, label) => {
     try {
-      await axios.patch(`http://localhost:5000/users/${type}/${id}`);
+      await instance.patch(`/users/${type}/${id}`);
       Swal.fire("Success", `${label} successful`, "success");
       queryClient.invalidateQueries(["users"]);
     } catch (err) {
@@ -34,7 +35,7 @@ const ManageUsers = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/users/${id}`);
+        await instance.delete(`/users/${id}`);
         Swal.fire("Deleted", "User removed", "success");
         queryClient.invalidateQueries(["users"]);
       } catch (err) {
@@ -43,72 +44,97 @@ const ManageUsers = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return (
+      <p className="text-center mt-10 text-gray-600 text-lg font-medium animate-pulse">
+        Loading users...
+      </p>
+    );
 
   return (
-    <div className="overflow-x-auto px-4 py-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">Manage Users</h2>
-      <table className="table w-full bg-white shadow rounded-lg">
-        <thead className="bg-gray-100 text-gray-800">
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role / Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u._id}>
-              <td>{u.name}</td>
-              <td>{u.email}</td>
-              <td>
-                {u.fraud ? (
-                  <span className="text-red-600 font-bold">Fraud</span>
-                ) : (
-                  u.role
-                )}
-              </td>
-              <td className="space-x-2">
-                {!u.fraud && (
-                  <>
-                    <button
-                      onClick={() => handleAction("admin", u._id, "Make Admin")}
-                      className="btn btn-xs bg-blue-600 text-white"
-                      disabled={u.role === "admin"}
-                    >
-                      Make Admin
-                    </button>
-                    <button
-                      onClick={() => handleAction("agent", u._id, "Make Agent")}
-                      className="btn btn-xs bg-green-600 text-white"
-                      disabled={u.role === "agent"}
-                    >
-                      Make Agent
-                    </button>
-                    {u.role === "agent" && (
+    <div className="overflow-x-auto px-4 py-10 max-w-6xl mx-auto">
+      <h2 className="text-3xl font-bold mb-8 text-center text-[#2C3E50]">
+        Manage Users
+      </h2>
+      <div className="overflow-hidden rounded-xl shadow-md border border-[#F4F6F8]">
+        <table className="table w-full text-sm bg-white">
+          <thead className="bg-[#F4F6F8] text-[#2C3E50] uppercase font-semibold">
+            <tr>
+              <th className="px-6 py-3 text-left">Name</th>
+              <th className="px-6 py-3 text-left">Email</th>
+              <th className="px-6 py-3 text-left">Role / Status</th>
+              <th className="px-6 py-3 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {users.map((u) => (
+              <tr key={u._id} className="hover:bg-gray-50 transition-all">
+                <td className="px-6 py-4 font-medium text-gray-700">
+                  {u.name}
+                </td>
+                <td className="px-6 py-4 text-gray-600">{u.email}</td>
+                <td className="px-6 py-4">
+                  {u.fraud ? (
+                    <span className="text-red-600 font-bold">Fraud</span>
+                  ) : (
+                    <span className="capitalize text-[#2D3436]">{u.role}</span>
+                  )}
+                </td>
+                <td className="px-6 py-4 flex flex-wrap gap-2">
+                  {!u.fraud && (
+                    <>
                       <button
                         onClick={() =>
-                          handleAction("fraud", u._id, "Marked as Fraud")
+                          handleAction("admin", u._id, "Make Admin")
                         }
-                        className="btn btn-xs bg-yellow-500 text-white"
+                        disabled={u.role === "admin"}
+                        className={`btn btn-xs ${
+                          u.role === "admin"
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-[#2563EB] hover:bg-blue-700 text-white"
+                        }`}
                       >
-                        Mark as Fraud
+                        Make Admin
                       </button>
-                    )}
-                  </>
-                )}
-                <button
-                  onClick={() => handleDelete(u._id)}
-                  className="btn btn-xs bg-red-600 text-white"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+                      <button
+                        onClick={() =>
+                          handleAction("agent", u._id, "Make Agent")
+                        }
+                        disabled={u.role === "agent"}
+                        className={`btn btn-xs ${
+                          u.role === "agent"
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-[#27AE60] hover:bg-green-700 text-white"
+                        }`}
+                      >
+                        Make Agent
+                      </button>
+
+                      {u.role === "agent" && (
+                        <button
+                          onClick={() =>
+                            handleAction("fraud", u._id, "Marked as Fraud")
+                          }
+                          className="btn btn-xs bg-[#F39C12] hover:bg-yellow-600 text-white"
+                        >
+                          Mark as Fraud
+                        </button>
+                      )}
+                    </>
+                  )}
+                  <button
+                    onClick={() => handleDelete(u._id)}
+                    className="btn btn-xs bg-[#E74C3C] hover:bg-red-700 text-white"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

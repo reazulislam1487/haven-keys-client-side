@@ -1,10 +1,11 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const SoldProperties = () => {
   const { user } = useAuth();
+  const instance = useAxiosSecure();
 
   const {
     data: soldData = { totalPaid: 0 },
@@ -15,7 +16,7 @@ const SoldProperties = () => {
     queryKey: ["soldProperties", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axios.get(
+      const res = await instance.get(
         `http://localhost:5000/agent-paid-properties/${user.email}`
       );
       return res.data;
@@ -24,7 +25,7 @@ const SoldProperties = () => {
 
   if (isLoading) {
     return (
-      <p className="text-center text-gray-600 mt-20 text-lg font-semibold animate-pulse">
+      <p className="text-center text-[#636e72] mt-20 text-lg font-semibold animate-pulse">
         Loading sold properties...
       </p>
     );
@@ -32,7 +33,7 @@ const SoldProperties = () => {
 
   if (isError) {
     return (
-      <p className="text-center text-red-600 mt-20 text-lg font-semibold">
+      <p className="text-center text-[#E74C3C] mt-20 text-lg font-semibold">
         Error loading sold properties: {error.message}
       </p>
     );
@@ -41,20 +42,22 @@ const SoldProperties = () => {
   const { totalPaid } = soldData;
 
   return (
-    <section className="max-w-xl mx-auto bg-white rounded-3xl shadow-lg p-10 mt-16">
-      <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-wide">
+    <section className="max-w-xl mx-auto bg-[#FFF9F0] rounded-3xl shadow-xl p-10 mt-16 border border-[#F4F6F8]">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-[#2C3E50] mb-10 text-center tracking-wide">
         Sold Properties Summary
       </h2>
 
-      <div className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white rounded-3xl shadow-xl p-10 flex flex-col items-center">
-        <p className="text-lg font-semibold uppercase tracking-wide mb-3">
+      <div className="bg-gradient-to-r from-[#38A169] to-[#27AE60] text-white rounded-3xl p-10 flex flex-col items-center shadow-inner">
+        <p className="text-lg font-semibold uppercase tracking-widest mb-2">
           Total Amount Paid
         </p>
-        <p className="text-6xl font-extrabold">${totalPaid.toFixed(2)}</p>
+        <p className="text-5xl md:text-6xl font-extrabold drop-shadow-lg">
+          ${totalPaid.toFixed(2)}
+        </p>
       </div>
 
       {totalPaid === 0 && (
-        <p className="mt-8 text-center text-gray-500 italic text-sm">
+        <p className="mt-8 text-center text-[#636e72] italic text-sm">
           You haven't received any payments yet.
         </p>
       )}

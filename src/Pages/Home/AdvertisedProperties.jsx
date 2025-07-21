@@ -1,15 +1,15 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router";
+import useAxios from "../../hooks/useAxios";
 
 const AdvertisedProperties = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
 
   const { data: advertised = [], isLoading } = useQuery({
     queryKey: ["advertised-properties"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/advertised-properties");
+      const res = await axiosInstance.get("/advertised-properties");
       return res.data;
     },
   });

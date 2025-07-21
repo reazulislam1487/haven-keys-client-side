@@ -7,7 +7,6 @@ const AdminAdvertiseProperty = () => {
   const instance = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  // Fetch all verified properties
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["verifiedProperties"],
     queryFn: async () => {
@@ -16,7 +15,6 @@ const AdminAdvertiseProperty = () => {
     },
   });
 
-  // Mutation to advertise property
   const advertiseMutation = useMutation({
     mutationFn: async (propertyId) => {
       const res = await instance.patch(`/advertise-property/${propertyId}`);
@@ -42,45 +40,63 @@ const AdminAdvertiseProperty = () => {
     });
   };
 
-  if (isLoading) return <p className="text-center mt-20">Loading...</p>;
+  if (isLoading)
+    return (
+      <p className="text-center mt-20 text-gray-500 text-lg animate-pulse">
+        Loading verified properties...
+      </p>
+    );
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4">Admin Verified Properties</h2>
+    <div className="px-4 py-10 max-w-7xl mx-auto">
+      <h2 className="text-3xl font-bold text-center text-[#2C3E50] mb-8">
+        Admin Verified Properties
+      </h2>
 
-      <div className="overflow-x-auto">
-        <table className="table w-full border">
-          <thead className="bg-gray-100 text-sm">
+      <div className="overflow-x-auto rounded-lg shadow border border-gray-100 bg-white">
+        <table className="table w-full text-sm">
+          <thead className="bg-[#F4F6F8] text-[#2C3E50] uppercase font-semibold text-xs">
             <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Location</th>
-              <th>Price Range</th>
-              <th>Agent Name</th>
-              <th>Agent Email</th>
-              <th>Created At</th>
-              <th>Advertise</th>
+              <th className="px-4 py-3">Image</th>
+              <th className="px-4 py-3">Title</th>
+              <th className="px-4 py-3">Location</th>
+              <th className="px-4 py-3">Price Range</th>
+              <th className="px-4 py-3">Agent Name</th>
+              <th className="px-4 py-3">Agent Email</th>
+              <th className="px-4 py-3">Created At</th>
+              <th className="px-4 py-3 text-center">Advertise</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-100">
             {properties.map((property) => (
-              <tr key={property._id} className="hover:bg-gray-50 text-sm">
-                <td>
+              <tr
+                key={property._id}
+                className="hover:bg-gray-50 transition-all"
+              >
+                <td className="px-4 py-2">
                   <img
                     src={property.image}
                     alt="Property"
-                    className="w-16 h-16 object-cover rounded"
+                    className="w-14 h-14 object-cover rounded-md ring-1 ring-[#E5E7EB]"
                   />
                 </td>
-                <td>{property.title}</td>
-                <td>{property.location}</td>
-                <td>
+                <td className="px-4 py-2 font-medium text-[#2D3436]">
+                  {property.title}
+                </td>
+                <td className="px-4 py-2 text-[#636e72]">
+                  {property.location}
+                </td>
+                <td className="px-4 py-2 text-[#2D3436]">
                   ${property.minPrice} - ${property.maxPrice}
                 </td>
-                <td>{property.agentName}</td>
-                <td>{property.agentEmail}</td>
-                <td>{new Date(property.createdAt).toLocaleDateString()}</td>
-                <td>
+                <td className="px-4 py-2">{property.agentName}</td>
+                <td className="px-4 py-2 text-xs text-[#636e72]">
+                  {property.agentEmail}
+                </td>
+                <td className="px-4 py-2 text-sm text-[#636e72]">
+                  {new Date(property.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-4 py-2 text-center">
                   {property.isAdvertised ? (
                     <span className="text-green-600 font-medium">
                       Advertised
@@ -88,7 +104,7 @@ const AdminAdvertiseProperty = () => {
                   ) : (
                     <button
                       onClick={() => handleAdvertise(property._id)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
+                      className="bg-[#2C3E50] cursor-pointer hover:bg-[#1A242F] text-white px-4 py-1.5 rounded text-xs font-medium"
                     >
                       Advertise
                     </button>

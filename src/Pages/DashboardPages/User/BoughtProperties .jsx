@@ -3,10 +3,18 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import {
+  FaMapMarkerAlt,
+  FaUserTie,
+  FaMoneyBillWave,
+  FaFileInvoiceDollar,
+} from "react-icons/fa";
 
 const PropertyBought = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const instance = useAxiosSecure();
 
   const {
     data: offersData,
@@ -16,9 +24,7 @@ const PropertyBought = () => {
   } = useQuery({
     queryKey: ["boughtProperties", user?.email],
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:5000/bought-properties?email=${user?.email}`
-      );
+      const res = await instance.get(`/bought-properties?email=${user?.email}`);
       return res.data;
     },
     enabled: !!user?.email,
@@ -26,61 +32,63 @@ const PropertyBought = () => {
 
   const offers = Array.isArray(offersData) ? offersData : [];
 
-  if (isLoading) return <p className="text-center">Loading offers...</p>;
+  if (isLoading)
+    return <p className="text-center text-[#2C3E50]">Loading offers...</p>;
+
   if (isError)
     return (
-      <p className="text-center text-red-600">
+      <p className="text-center text-[#E74C3C]">
         Error loading offers: {error.message}
       </p>
     );
+
   if (offers.length === 0)
-    return <p className="text-center">No offers found.</p>;
+    return <p className="text-center text-gray-600">No offers found.</p>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 px-4">
       {offers.map((item) => (
-        <div key={item._id} className="bg-white p-4 rounded-xl shadow-lg">
-          {/* Property Image */}
+        <div
+          key={item._id}
+          className="bg-[#FFF9F0] border border-[#FDCB6E] rounded-2xl shadow-lg p-5 hover:shadow-xl transition"
+        >
           <img
             src={item.propertyImage || "https://via.placeholder.com/400x200"}
             alt={item.propertyTitle || "Property"}
-            className="rounded-lg h-40 w-full object-cover"
+            className="rounded-xl h-40 w-full object-cover mb-4"
           />
 
-          {/* Property Title */}
-          <h3 className="text-lg font-semibold mt-3">
+          <h3 className="text-xl font-bold text-[#2C3E50]">
             {item.propertyTitle || "Untitled Property"}
           </h3>
 
-          {/* Property Location */}
-          <p className="text-gray-700 mt-1">
-            📍 {item.propertyLocation || "Location not available"}
+          <p className="text-[#636e72] mt-2 flex items-center gap-2">
+            <FaMapMarkerAlt className="text-[#00B894]" />
+            {item.propertyLocation || "Location not available"}
           </p>
 
-          {/* Agent Name */}
-          <p className="text-sm text-gray-600 mt-2">
-            🧑 Agent: {item.agentName || "Unknown"}
+          <p className="text-sm text-[#636e72] mt-2 flex items-center gap-2">
+            <FaUserTie className="text-[#F39C12]" />
+            Agent: {item.agentName || "Unknown"}
           </p>
 
-          {/* Offered Amount */}
-          <p className="text-blue-600 font-medium mt-2">
-            💰 Offered Amount: ${item.offerAmount || "N/A"}
+          <p className="text-[#27AE60] font-medium mt-2 flex items-center gap-2">
+            <FaMoneyBillWave />
+            Offer: ${item.offerAmount || "N/A"}
           </p>
 
-          {/* Status */}
           <p
             className={`mt-2 font-semibold ${
               item.status === "accepted"
-                ? "text-green-600"
+                ? "text-[#27AE60]"
                 : item.status === "bought"
                 ? "text-purple-600"
-                : "text-yellow-600"
+                : "text-[#F39C12]"
             }`}
           >
             Status: {item.status || "pending"}
           </p>
 
-          {/* Pay Button / Transaction ID */}
           {item.status === "accepted" && !item.transactionId && (
             <button
               onClick={() =>
@@ -92,31 +100,31 @@ const PropertyBought = () => {
                   },
                 })
               }
-              className="mt-3 bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 px-4 rounded-md"
+              className="mt-4 bg-[#00B894] hover:bg-[#019875] text-white font-medium py-2 px-5 rounded-lg transition"
             >
-              Pay
+              Pay Now
             </button>
           )}
 
           {item.status === "bought" && (
-            <div>
-              <p className="mt-3 font-medium text-gray-800">
-                🧾 Txn ID:{" "}
+            <div className="mt-3 text-sm text-[#2D3436]">
+              <p className="font-semibold flex items-center gap-2">
+                <FaFileInvoiceDollar className="text-[#2C3E50]" />
+                Txn ID:{" "}
                 <span
-                  className="text-blue-700 text-sm font-semibold cursor-pointer"
                   onClick={() =>
                     navigator.clipboard.writeText(
                       item?.transactionId?.transactionId
                     )
                   }
                   title="Click to copy"
+                  className="text-blue-700 underline cursor-pointer"
                 >
                   {item?.transactionId?.transactionId}
                 </span>
               </p>
             </div>
           )}
-
         </div>
       ))}
     </div>

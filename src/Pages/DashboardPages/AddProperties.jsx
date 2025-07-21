@@ -1,15 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-import { AuthContext } from "../../Contexts/AuthContext";
 import usePageTitle from "../../hooks/usePageTitle";
+import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const AddProperty = () => {
   usePageTitle("Add Property");
 
-  const { user } = useContext(AuthContext);
+  const axiosInstance = useAxios();
+  const { user } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [imageURL, setImageURL] = useState("");
 
@@ -33,7 +35,7 @@ const AddProperty = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         "https://api.imgbb.com/1/upload?key=8d037ace4968014a12f45e0c0cde4bd4",
         formData
       );
@@ -91,22 +93,24 @@ const AddProperty = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8 my-10">
-      <h2 className="text-3xl font-bold text-center mb-8 text-[#2C3E50]">
-        Add Property
+    <div className="max-w-4xl mx-auto bg-[#FFF9F0] shadow-xl rounded-2xl p-10 border border-[#F4F6F8]">
+      <h2 className="text-4xl font-bold text-center mb-8 text-[#2C3E50]">
+        Add New Property
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Property Title */}
         <div>
-          <label className="label font-semibold text-[#2D3436]">
+          <label className="block font-semibold text-[#2D3436] mb-1">
             Property Title
           </label>
           <input
             type="text"
-            placeholder="Enter title"
-            className={`input input-bordered w-full rounded-md ${
-              errors.title ? "border-[#E74C3C]" : "border-[#00B894]"
+            placeholder="Enter property title"
+            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              errors.title
+                ? "border-[#E74C3C] focus:ring-[#E74C3C]"
+                : "border-[#00B894] focus:ring-[#00B894]"
             }`}
             {...register("title", { required: "Title is required" })}
           />
@@ -119,12 +123,16 @@ const AddProperty = () => {
 
         {/* Property Location */}
         <div>
-          <label className="label font-semibold text-[#2D3436]">Location</label>
+          <label className="block font-semibold text-[#2D3436] mb-1">
+            Location
+          </label>
           <input
             type="text"
             placeholder="Enter location"
-            className={`input input-bordered w-full rounded-md ${
-              errors.location ? "border-[#E74C3C]" : "border-[#00B894]"
+            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              errors.location
+                ? "border-[#E74C3C] focus:ring-[#E74C3C]"
+                : "border-[#00B894] focus:ring-[#00B894]"
             }`}
             {...register("location", { required: "Location is required" })}
           />
@@ -137,70 +145,53 @@ const AddProperty = () => {
 
         {/* Price Range */}
         <div>
-          <label className="label font-semibold text-[#2D3436]">
-            Price Range
+          <label className="block font-semibold text-[#2D3436] mb-1">
+            Price Range ($)
           </label>
           <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            {/* Min Price */}
-            <div className="w-full">
-              <input
-                type="number"
-                step="any"
-                placeholder="Min Price ($)"
-                className={`input input-bordered w-full rounded-md ${
-                  errors.minPrice ? "border-[#E74C3C]" : "border-[#00B894]"
-                }`}
-                {...register("minPrice", {
-                  required: "Min price is required",
-                  valueAsNumber: true,
-                  min: { value: 0, message: "Min price must be positive" },
-                  validate: (value) =>
-                    !maxPrice ||
-                    value <= maxPrice ||
-                    "Min price cannot exceed max price",
-                })}
-              />
-              {errors.minPrice && (
-                <p className="text-[#E74C3C] text-sm mt-1">
-                  {errors.minPrice.message}
-                </p>
-              )}
-            </div>
-
-            {/* Max Price */}
-            <div className="w-full">
-              <input
-                type="number"
-                step="any"
-                placeholder="Max Price ($)"
-                className={`input input-bordered w-full rounded-md ${
-                  errors.maxPrice ? "border-[#E74C3C]" : "border-[#00B894]"
-                }`}
-                {...register("maxPrice", {
-                  required: "Max price is required",
-                  valueAsNumber: true,
-                  min: {
-                    value: minPrice || 0,
-                    message: "Max price must be positive",
-                  },
-                  validate: (value) =>
-                    !minPrice ||
-                    value >= minPrice ||
-                    "Max price must be greater than or equal to Min price",
-                })}
-              />
-              {errors.maxPrice && (
-                <p className="text-[#E74C3C] text-sm mt-1">
-                  {errors.maxPrice.message}
-                </p>
-              )}
-            </div>
+            <input
+              type="number"
+              placeholder="Min"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.minPrice
+                  ? "border-[#E74C3C] focus:ring-[#E74C3C]"
+                  : "border-[#00B894] focus:ring-[#00B894]"
+              }`}
+              {...register("minPrice", {
+                required: "Min price is required",
+                valueAsNumber: true,
+                min: { value: 0, message: "Min price must be positive" },
+                validate: (value) =>
+                  !maxPrice || value <= maxPrice || "Min cannot exceed Max",
+              })}
+            />
+            <input
+              type="number"
+              placeholder="Max"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                errors.maxPrice
+                  ? "border-[#E74C3C] focus:ring-[#E74C3C]"
+                  : "border-[#00B894] focus:ring-[#00B894]"
+              }`}
+              {...register("maxPrice", {
+                required: "Max price is required",
+                valueAsNumber: true,
+                min: { value: 0, message: "Max price must be positive" },
+                validate: (value) =>
+                  !minPrice || value >= minPrice || "Max must be ≥ Min",
+              })}
+            />
           </div>
+          {(errors.minPrice || errors.maxPrice) && (
+            <p className="text-[#E74C3C] text-sm mt-1">
+              {errors.minPrice?.message || errors.maxPrice?.message}
+            </p>
+          )}
         </div>
 
         {/* Image Upload */}
         <div>
-          <label className="label font-semibold text-[#2D3436]">
+          <label className="block font-semibold text-[#2D3436] mb-1">
             Property Image
           </label>
           <input
@@ -212,37 +203,37 @@ const AddProperty = () => {
           />
         </div>
 
-        {/* Agent Name (Read-only) */}
+        {/* Agent Name */}
         <div>
-          <label className="label font-semibold text-[#2D3436]">
+          <label className="block font-semibold text-[#2D3436] mb-1">
             Agent Name
           </label>
           <input
             type="text"
             value={user?.displayName || ""}
             readOnly
-            className="input input-bordered w-full rounded-md bg-gray-100"
+            className="w-full px-4 py-2 bg-[#F4F6F8] rounded-lg border border-[#DDD] text-[#2D3436]"
           />
         </div>
 
-        {/* Agent Email (Read-only) */}
+        {/* Agent Email */}
         <div>
-          <label className="label font-semibold text-[#2D3436]">
+          <label className="block font-semibold text-[#2D3436] mb-1">
             Agent Email
           </label>
           <input
             type="email"
             value={user?.email || ""}
             readOnly
-            className="input input-bordered w-full rounded-md bg-gray-100"
+            className="w-full px-4 py-2 bg-[#F4F6F8] rounded-lg border border-[#DDD] text-[#2D3436]"
           />
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
           disabled={isSubmitting || uploading || !imageURL}
-          className="btn bg-[#2C3E50] hover:bg-[#263544f1] text-white w-full rounded-md"
+          className="w-full bg-[#2C3E50] cursor-pointer hover:bg-[#263544f1] text-white py-3 rounded-lg font-semibold transition duration-200"
         >
           {uploading
             ? "Uploading Image..."
