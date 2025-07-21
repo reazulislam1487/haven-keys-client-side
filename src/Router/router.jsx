@@ -27,6 +27,8 @@ import SoldProperties from "../Pages/DashboardPages/SoldProperties";
 import AdminRoute from "../Contexts/AdminRoute";
 import Forbidden from "../Pages/Shared/Foridden";
 import AgentRoute from "../Contexts/AgentRoute";
+import Profile from "../Pages/DashboardPages/Profile/Profile";
+import AdminAdvertiseProperty from "../Pages/DashboardPages/Admin/AdminAdvertiseProperty";
 
 const router = createBrowserRouter([
   {
@@ -87,10 +89,19 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { index: true, element: <h1>hello</h1> },
+      { index: true, element: <Profile></Profile> },
       {
         path: "/dashboard/wishlist",
         element: <WishList></WishList>,
+      },
+
+      {
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
       },
       {
         path: "/dashboard/make-offer/:id",
@@ -168,6 +179,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage-reviews",
         element: <ManageReviews></ManageReviews>,
+      },
+      {
+        path: "/dashboard/advertise",
+        element: <AdminAdvertiseProperty></AdminAdvertiseProperty>,
       },
     ],
   },

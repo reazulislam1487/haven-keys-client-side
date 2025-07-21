@@ -6,6 +6,7 @@ import MarathonEvents from "./Marathonevents";
 import WhyJoinSection from "./WhyJoinSection";
 import usePageTitle from "../../hooks/usePageTitle";
 import FAQSection from "./FAQSection";
+import AdvertisedProperties from "./AdvertisedProperties";
 const Home = () => {
   usePageTitle("Home");
 
@@ -14,6 +15,7 @@ const Home = () => {
       <SliderPage></SliderPage>
       <div className="max-w-screen-xl mx-auto">
         <Banner></Banner>
+        <AdvertisedProperties></AdvertisedProperties>
         <MarathonEvents></MarathonEvents>
         <FAQSection></FAQSection>
         <WhyJoinSection></WhyJoinSection>

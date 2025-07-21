@@ -135,7 +135,7 @@ const Sidebar = () => {
   const { role } = useUserRole();
   // Routes for User
   const userNav = [
-    { path: "/dashboard/profile", icon: <FiHome />, label: "My Profile" },
+    { path: "/dashboard", icon: <FiHome />, label: "My Profile" },
     { path: "/dashboard/wishlist", icon: <FiHeart />, label: "Wishlist" },
     { path: "/dashboard/property-bought", icon: <FiSend />, label: "Bought" },
     { path: "/dashboard/my-reviews", icon: <FiEdit />, label: "My Reviews" },
@@ -143,7 +143,7 @@ const Sidebar = () => {
 
   // Routes for Agent
   const agentNav = [
-    { path: "/dashboard/profile", icon: <FiHome />, label: "My Profile" },
+    { path: "/dashboard", icon: <FiHome />, label: "My Profile" },
     {
       path: "/dashboard/add-properties",
       icon: <FiPlus />,
@@ -169,7 +169,7 @@ const Sidebar = () => {
 
   // Routes for Admin
   const adminNav = [
-    { path: "/dashboard/profile", icon: <FiHome />, label: "My Profile" },
+    { path: "/dashboard", icon: <FiHome />, label: "My Profile" },
     {
       path: "/dashboard/manage-users",
       icon: <FiUsers />,
