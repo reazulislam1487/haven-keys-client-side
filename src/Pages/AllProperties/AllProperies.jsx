@@ -1,17 +1,16 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AllProperties = () => {
   const { user } = useAuth();
+  const instance = useAxiosSecure();
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["verified-properties"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        "http://localhost:5000/all-verify-properties"
-      );
+      const { data } = await instance.get("/all-verify-properties");
       return data;
     },
   });

@@ -24,6 +24,9 @@ import BoughtProperties from "../Pages/DashboardPages/User/BoughtProperties ";
 import RequestedOffers from "../Pages/DashboardPages/RequestedOffers";
 import Payment from "../Pages/DashboardPages/User/Payment";
 import SoldProperties from "../Pages/DashboardPages/SoldProperties";
+import AdminRoute from "../Contexts/AdminRoute";
+import Forbidden from "../Pages/Shared/Foridden";
+import AgentRoute from "../Contexts/AgentRoute";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +73,10 @@ const router = createBrowserRouter([
         path: "/contact-us",
         Component: ContactUs,
       },
+      {
+        path: "/forbidden",
+        Component: Forbidden,
+      },
     ],
   },
   {
@@ -81,19 +88,6 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <h1>hello</h1> },
-
-      {
-        path: "/dashboard/add-properties",
-        element: <AddProperty></AddProperty>,
-      },
-      {
-        path: "/dashboard/my-requests",
-        element: <RequestedOffers></RequestedOffers>,
-      },
-      {
-        path: "/dashboard/agent-paid-properties/:email",
-        element: <SoldProperties></SoldProperties>,
-      },
       {
         path: "/dashboard/wishlist",
         element: <WishList></WishList>,
@@ -115,20 +109,61 @@ const router = createBrowserRouter([
         element: <MyReviews></MyReviews>,
       },
       {
+        path: "/dashboard/add-properties",
+        element: (
+          <AgentRoute>
+            <AddProperty></AddProperty>
+          </AgentRoute>
+        ),
+      },
+      {
+        path: "/dashboard/my-requests",
+        element: (
+          <AgentRoute>
+            <RequestedOffers></RequestedOffers>
+          </AgentRoute>
+        ),
+      },
+      {
+        path: "/dashboard/agent-paid-properties/:email",
+        element: (
+          <AgentRoute>
+            <SoldProperties></SoldProperties>
+          </AgentRoute>
+        ),
+      },
+
+      {
         path: "/dashboard/my-properties",
-        element: <MyProperties></MyProperties>,
+        element: (
+          <AgentRoute>
+            <MyProperties></MyProperties>
+          </AgentRoute>
+        ),
       },
       {
         path: "/dashboard/update-property/:id",
-        element: <UpdateProperty />,
+        element: (
+          <AgentRoute>
+            <UpdateProperty />
+          </AgentRoute>
+        ),
       },
       {
         path: "/dashboard/manage-property",
-        element: <ManageProperties></ManageProperties>,
+        element: (
+          <AdminRoute>
+            <ManageProperties></ManageProperties>
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/manage-users",
-        element: <ManageUsers></ManageUsers>,
+        element: (
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/manage-reviews",

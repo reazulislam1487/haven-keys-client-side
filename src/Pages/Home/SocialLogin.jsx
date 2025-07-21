@@ -9,28 +9,34 @@ const SocialLogin = () => {
   const { signInWithGoogle } = useContext(AuthContext);
   const location = useLocation();
   const instance = useAxiosSecure();
-  const { user, setLoading } = useAuth();
+  const { setLoading } = useAuth();
 
   const navigate = useNavigate();
   const from = location.state || "/";
   // const from = location.state?.from?.pathname || "/";
   const handleGoogleLogin = () => {
     signInWithGoogle()
-      .then(async () => {
-        /* 2‑B  Persist user in your own DB */
+      .then(async (result) => {
+        const loggedInUser = result.user;
+        if (!loggedInUser?.email) {
+          throw new Error("No user information found");
+        }
+
         await instance.post(`/users`, {
-          name: user.displayName || "Anonymous",
-          email: user.email,
-          photoURL: user.photoURL,
+          name: loggedInUser.displayName || "Anonymous",
+          email: loggedInUser.email,
+          photoURL: loggedInUser.photoURL,
           role: "user",
           fraud: false,
         });
+
         Swal.fire({
           title: "Good job!",
           text: "Login successful",
           icon: "success",
           timer: 1500,
         });
+
         navigate(from);
         setLoading(false);
       })
@@ -41,6 +47,7 @@ const SocialLogin = () => {
           icon: "error",
           timer: 1500,
         });
+        setLoading(false);
       });
   };
 
