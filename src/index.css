@@ -19,7 +19,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  @apply bg-gradient-to-b from-blue-100 via-white to-blue-50 min-h-screen;
+  @apply bg-[#F8F8F8] min-h-screen;
 }
 
 .active {

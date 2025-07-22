@@ -2,32 +2,45 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import {
+  FaMapMarkerAlt,
+  FaMoneyBillWave,
+  FaCheckCircle,
+  FaCalendarAlt,
+  FaArrowRight,
+} from "react-icons/fa";
+import useAxios from "../../hooks/useAxios";
 
 const AllProperties = () => {
   const { user } = useAuth();
-  const instance = useAxiosSecure();
+  const axiosInstance = useAxios();
+
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["verified-properties"],
     queryFn: async () => {
-      const { data } = await instance.get("/all-verify-properties");
+      const { data } = await axiosInstance.get("/all-verify-properties");
       return data;
     },
   });
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isLoading)
+    return (
+      <p className="text-center mt-10 text-[#6B7280] animate-pulse">
+        Loading...
+      </p>
+    );
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-8 text-center">
+    <section className="max-w-7xl mx-auto px-4 py-10 bg-[#F8F8F8]">
+      <h2 className="text-3xl font-bold mb-8 text-center text-[#2D2D2D]">
         All Verified Properties
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {properties.map((property) => (
           <div
             key={property._id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col"
+            className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col border border-gray-200"
           >
             <img
               src={property.image}
@@ -36,43 +49,44 @@ const AllProperties = () => {
             />
 
             <div className="p-4 flex-1 flex flex-col">
-              {/* Title & Location */}
-              <h3 className="text-xl font-bold text-gray-900 mb-1">
+              <h3 className="text-lg font-semibold text-[#2D2D2D] mb-1 line-clamp-1">
                 {property.title}
               </h3>
-              <p className="text-gray-600 mb-1">📍 {property.location}</p>
 
-              {/* Agent Info */}
-              <div className="flex items-center gap-2 my-2">
+              <p className="text-[#6B7280] text-sm flex items-center gap-1 mb-2">
+                <FaMapMarkerAlt className="text-[#FF6F3C]" />{" "}
+                {property.location}
+              </p>
+
+              <div className="flex items-center gap-3 my-3">
                 <img
                   src={user?.photoURL || "/default-agent.jpg"}
                   alt={property.agentName}
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-9 h-9 rounded-full object-cover border"
                 />
                 <div>
-                  <p className="text-sm font-medium text-gray-800">
+                  <p className="text-sm font-medium text-[#2D2D2D]">
                     {property.agentName}
                   </p>
-                  <p className="text-xs text-gray-500">{property.agentEmail}</p>
+                  <p className="text-xs text-[#6B7280]">
+                    {property.agentEmail}
+                  </p>
                 </div>
               </div>
 
-              {/* Price Range */}
-              <p className="text-sm mb-2">
-                💰{" "}
-                <span className="font-medium">
+              <p className="text-sm text-[#2D2D2D] flex items-center gap-1 mb-1">
+                <FaMoneyBillWave className="text-[#FF6F3C]" />
+                <span className="font-semibold text-[#FF6F3C]">
                   ${property.minPrice} - ${property.maxPrice}
                 </span>
               </p>
 
-              {/* Status */}
-              <p className="text-green-600 text-xs font-semibold uppercase">
-                ✅ {property.status}
+              <p className="text-[#10B981] text-xs font-semibold uppercase tracking-wide flex items-center gap-1">
+                <FaCheckCircle /> {property.status}
               </p>
 
-              {/* Created Date */}
-              <p className="text-gray-400 text-xs mt-1">
-                🗓️{" "}
+              <p className="text-gray-400 text-xs mt-1 flex items-center gap-1">
+                <FaCalendarAlt />
                 {new Date(property.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
@@ -80,12 +94,11 @@ const AllProperties = () => {
                 })}
               </p>
 
-              {/* Details Link */}
               <Link
                 to={`/property-details/${property._id}`}
-                className="mt-auto btn btn-sm bg-blue-600 text-white hover:bg-blue-700 w-full rounded-md"
+                className="mt-auto text-center bg-[#FF6F3C] hover:bg-[#FFA987] text-white text-sm font-medium py-2 px-4 rounded-md transition duration-300 mt-4 flex items-center justify-center gap-2"
               >
-                View Details
+                View Details <FaArrowRight />
               </Link>
             </div>
           </div>
