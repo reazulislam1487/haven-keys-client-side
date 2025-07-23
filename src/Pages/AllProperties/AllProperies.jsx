@@ -9,26 +9,22 @@ import {
   FaCalendarAlt,
   FaArrowRight,
 } from "react-icons/fa";
-import useAxios from "../../hooks/useAxios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../Shared/Loading";
 
 const AllProperties = () => {
   const { user } = useAuth();
-  const axiosInstance = useAxios();
+  const instance = useAxiosSecure();
 
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["verified-properties"],
     queryFn: async () => {
-      const { data } = await axiosInstance.get("/all-verify-properties");
+      const { data } = await instance.get("/all-verify-properties");
       return data;
     },
   });
 
-  if (isLoading)
-    return (
-      <p className="text-center mt-10 text-[#6B7280] animate-pulse">
-        Loading...
-      </p>
-    );
+  if (isLoading) return <Loading></Loading>;
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-10 bg-[#F8F8F8]">

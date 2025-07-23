@@ -9,7 +9,18 @@ const PrivateRoute = ({ children }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center">
-        <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-600"></div>
+        <div
+          className="w-16 h-16 rounded-full animate-spin"
+          style={{
+            borderWidth: "4px",
+            borderStyle: "dashed",
+            borderColor: "#2F855A", // primary color
+            borderTopColor: "#F6C26B", // accent color for spinning highlight
+            borderRightColor: "#2F855A",
+            borderBottomColor: "#2F855A",
+            borderLeftColor: "#2F855A",
+          }}
+        ></div>
       </div>
     );
   }

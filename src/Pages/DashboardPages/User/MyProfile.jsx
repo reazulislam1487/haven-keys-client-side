@@ -23,7 +23,7 @@ const MyProfile = () => {
         <img
           src={user.photoURL || "/default-avatar.png"}
           alt="User Avatar"
-          className="w-36 h-36 rounded-full object-cover border-4 border-[#2C3E50] shadow"
+          className="w-36 h-36 rounded-full object-cover border-4 border-[#FF6F3C] shadow"
         />
 
         <h2 className="text-3xl font-semibold text-[#2D3436]">

@@ -80,7 +80,7 @@ const Wishlist = () => {
             {/* Property Location */}
             <p className="text-[#636e72] mt-1 flex items-center gap-1 text-sm">
               <HiLocationMarker className="text-[#00B894]" />
-              {item.propertyLocation || "Location not available"}
+              {item.location || "Location not available"}
             </p>
 
             {/* Agent Info */}

@@ -53,7 +53,7 @@ const MyReviews = () => {
                 <img
                   src={review.reviewerPhoto}
                   alt={review.reviewer}
-                  className="w-12 h-12 rounded-full border-2 border-[#00B894]"
+                  className="w-12 h-12 rounded-full border-2 border-[#FF6F3C]"
                 />
                 <div>
                   <p className="text-lg font-semibold text-[#2D3436]">

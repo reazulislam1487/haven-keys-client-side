@@ -1,12 +1,11 @@
 import React from "react";
 
-import Banner from "./Banner";
 import SliderPage from "../Shared/SliderPage";
-import MarathonEvents from "./Marathonevents";
-import WhyJoinSection from "./WhyJoinSection";
 import usePageTitle from "../../hooks/usePageTitle";
-import FAQSection from "./FAQSection";
 import AdvertisedProperties from "./AdvertisedProperties";
+import WhyChooseUs from "./WhyChooseUs";
+import Testimonials from "./Testimonials";
+import LatestUserReviews from "./LatestUserReviews";
 const Home = () => {
   usePageTitle("Home");
 
@@ -14,11 +13,10 @@ const Home = () => {
     <main>
       <SliderPage></SliderPage>
       <div className="max-w-screen-xl mx-auto">
-        <Banner></Banner>
         <AdvertisedProperties></AdvertisedProperties>
-        <MarathonEvents></MarathonEvents>
-        <FAQSection></FAQSection>
-        <WhyJoinSection></WhyJoinSection>
+        <LatestUserReviews></LatestUserReviews>
+        <Testimonials></Testimonials>
+        <WhyChooseUs></WhyChooseUs>
       </div>
     </main>
   );

@@ -8,7 +8,7 @@ const blogPosts = [
     date: "July 10, 2025",
     excerpt:
       "Buying your first home? Here’s what you need to know—from budgeting to closing the deal with confidence.",
-    image: "https://i.postimg.cc/K8FkVWBP/first-home-buyers.jpg",
+    image: "https://i.postimg.cc/wjCJKhg5/image-11-1140x570.webp",
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const blogPosts = [
     date: "July 5, 2025",
     excerpt:
       "Discover the latest market trends, pricing forecasts, and neighborhood shifts to make informed investment decisions.",
-    image: "https://i.postimg.cc/sD0XGZfp/real-estate-trends.jpg",
+    image: "https://i.postimg.cc/5NZjjbTb/shutterstock-1100834378.jpg",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const blogPosts = [
     date: "June 29, 2025",
     excerpt:
       "Upgrade your property’s appeal with trending interiors, minimalist layouts, and value-adding décor tips.",
-    image: "https://i.postimg.cc/NGkPKWYy/interior-design.jpg",
+    image: "https://i.postimg.cc/xCT1BCJy/i-Stock-1391413216-1.jpg",
   },
 ];
 
@@ -36,9 +36,7 @@ const BlogSection = () => (
       transition={{ duration: 0.8 }}
       className="max-w-7xl mx-auto text-center mb-12"
     >
-      <h2 className="text-5xl font-extrabold text-gray-900 mb-4">
-        From the HavenKeys Blog
-      </h2>
+      <h2 className="text-5xl font-extrabold text-gray-900 mb-4">Blogs</h2>
       <p className="text-lg text-gray-600 max-w-2xl mx-auto">
         Stay updated with expert tips, property market insights, and home design
         inspiration.

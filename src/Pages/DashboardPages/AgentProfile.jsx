@@ -22,7 +22,7 @@ const AgentProfile = () => {
         <img
           src={user.photoURL || "/default-avatar.png"}
           alt="Agent"
-          className="w-32 h-32 rounded-full border-4 border-[#00B894] object-cover shadow-md"
+          className="w-32 h-32 rounded-full border-4 border-[#FF6F3C] object-cover shadow-md"
         />
 
         <h2 className="text-3xl font-bold text-[#2C3E50]">

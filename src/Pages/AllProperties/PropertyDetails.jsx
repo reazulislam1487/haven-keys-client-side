@@ -14,6 +14,7 @@ import {
   FaPlus,
   FaTimes,
 } from "react-icons/fa";
+import Loading from "../Shared/Loading";
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -46,6 +47,8 @@ const PropertyDetails = () => {
         propertyId: id,
         userEmail: user?.email,
         title: property.title,
+        location: property.location,
+        agentName: property.agentName,
         image: property.image,
         minPrice: property.minPrice,
         maxPrice: property.maxPrice,
@@ -60,6 +63,7 @@ const PropertyDetails = () => {
     mutationFn: async () => {
       await instance.post("/reviews", {
         propertyId: id,
+        propertTitle: property.title,
         reviewer: user?.displayName,
         reviewerEmail: user?.email,
         reviewText,
@@ -85,20 +89,15 @@ const PropertyDetails = () => {
     addReviewMutation.mutate();
   };
 
-  if (isLoading)
-    return (
-      <p className="text-center mt-10 text-[#6B7280] animate-pulse">
-        Loading property...
-      </p>
-    );
+  if (isLoading) return <Loading></Loading>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 bg-[#F8F8F8] text-[#2D2D2D]">
+    <div className="max-w-4xl mx-auto px-4 py-10 bg-[#F8F8F8] text-[#2D2D2D]">
       {/* Image */}
       <img
         src={property.image}
         alt={property.title}
-        className="w-full h-64 object-cover rounded-xl mb-6 shadow"
+        className="w-full h-99 bg-cover object-cover rounded-xl mb-6 shadow"
       />
 
       {/* Title & Location */}
