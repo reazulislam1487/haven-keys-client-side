@@ -13,6 +13,7 @@ import {
   HiXCircle,
 } from "react-icons/hi";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../Shared/Loading";
 
 const Wishlist = () => {
   const { user } = useAuth();
@@ -50,12 +51,7 @@ const Wishlist = () => {
         Failed to load wishlist.
       </p>
     );
-  if (wishlist.length === 0)
-    return (
-      <p className="text-center text-[#718096] text-lg mt-10 font-medium">
-        No wishlist items found.
-      </p>
-    );
+  if (wishlist.length === 0) return <Loading></Loading>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-0 mt-8">
@@ -68,7 +64,7 @@ const Wishlist = () => {
           <img
             src={item.image || item.propertyImage || "/default-property.jpg"}
             alt="Property"
-            className="w-full h-48 object-cover"
+            className="w-full  h-48 object-cover"
           />
 
           <div className="p-5 flex flex-col flex-grow">

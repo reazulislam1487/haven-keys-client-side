@@ -1,7 +1,7 @@
-// components/Testimonials.jsx
 import React from "react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import { FaQuoteLeft } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -37,41 +37,43 @@ const Testimonials = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 5000,
     arrows: false,
     adaptiveHeight: true,
     pauseOnHover: true,
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-14">
-      <h2 className="text-4xl font-bold text-center text-[#2D2D2D] mb-12 tracking-tight">
+    <section className="max-w-7xl mx-auto px-4 py-16  rounded-xl">
+      <h2 className="text-4xl font-extrabold text-center text-[#1F2937] mb-14 tracking-tight leading-snug">
         What Our Clients Say
       </h2>
-      <Slider {...settings} className="max-w-3xl mx-auto">
+
+      <Slider {...settings} className="max-w-3xl mx-auto px-2">
         {testimonials.map((item, i) => (
           <motion.div
             key={i}
-            className="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-8 shadow-lg mx-4"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            className="bg-white bg-opacity-60 backdrop-blur-lg rounded-3xl p-10 shadow-2xl mx-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <p className="text-md text-[#4A5568] mb-8 italic leading-relaxed">
+            <FaQuoteLeft className="text-3xl text-[#FF6F3C] mb-4" />
+            <p className="text-lg text-gray-700 mb-10 italic leading-relaxed">
               “{item.feedback}”
             </p>
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-16 h-16 rounded-full object-cover border-4 border-[#FF6F3C]"
+                className="w-14 h-14 rounded-full object-cover border-2 border-[#FF6F3C] shadow-md"
               />
               <div>
-                <h4 className="font-semibold text-[#2D2D2D] text-lg">
+                <h4 className="font-semibold text-[#1F2937] text-lg">
                   {item.name}
                 </h4>
-                <p className="text-sm text-[#6B7280]">{item.location}</p>
+                <p className="text-sm text-gray-500">{item.location}</p>
               </div>
             </div>
           </motion.div>

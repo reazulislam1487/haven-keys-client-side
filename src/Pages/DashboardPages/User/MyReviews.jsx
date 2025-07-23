@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaTrashAlt } from "react-icons/fa";
+import Loading from "../../Shared/Loading";
 
 const MyReviews = () => {
   const { user } = useAuth();
@@ -27,12 +28,7 @@ const MyReviews = () => {
     },
   });
 
-  if (isLoading)
-    return (
-      <p className="text-center text-gray-500 mt-10 text-lg">
-        Loading your reviews...
-      </p>
-    );
+  if (isLoading) return <Loading></Loading>;
 
   return (
     <div className="max-w-7xl mx-auto mt-10 px-4">

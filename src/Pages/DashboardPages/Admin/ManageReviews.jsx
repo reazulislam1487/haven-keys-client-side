@@ -59,7 +59,7 @@ const ManageReviews = () => {
               <img
                 src={review.reviewerPhoto}
                 alt={review.reviewer}
-                className="w-14 h-14 rounded-full object-cover ring-2 ring-[#00B894]"
+                className="w-14 h-14 rounded-full object-cover ring-2 ring-[#FF6F3C]"
               />
               <div className="flex-1">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 mb-2">

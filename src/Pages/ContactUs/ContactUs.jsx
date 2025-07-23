@@ -35,7 +35,7 @@ const ContactUs = () => {
               {
                 icon: <FaMapMarkerAlt className="text-orange-500 text-3xl" />,
                 label: "Address",
-                value: "123 Marathon St., RunCity",
+                value: "123 HavenKeys St., RunCity",
               },
               {
                 icon: <FaPhoneAlt className="text-orange-500 text-3xl" />,
@@ -45,7 +45,7 @@ const ContactUs = () => {
               {
                 icon: <FaEnvelope className="text-orange-500 text-3xl" />,
                 label: "Email",
-                value: "support@marathonzone.com",
+                value: "support@havenkeys.com",
               },
             ].map((item, i) => (
               <motion.div

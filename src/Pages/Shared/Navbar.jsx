@@ -74,7 +74,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="sticky top-0 z-50 bg-gray-900 text-white shadow-md">
+    <div className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md text-white shadow-md">
       <nav className="navbar max-w-7xl mx-auto px-4 md:px-6 py-4">
         {/* Left Side */}
         <div className="navbar-start flex items-center gap-4">
@@ -104,8 +104,6 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center">
-            {/* <HavenKeysLogo width={150} height={50} /> */}
-
             <div className="w-12 h-12 flex items-center justify-center mr-2 ">
               <img src="/logo.png" className="rounded-full" alt="" />
             </div>
@@ -113,7 +111,7 @@ const Navbar = () => {
               to="/"
               className="text-2xl font-extrabold text-orange-500 select-none"
             >
-              <span className="text-orange-500">HavenKeys </span>
+              <span className="text-white">HavenKeys </span>
             </NavLink>
           </div>
         </div>

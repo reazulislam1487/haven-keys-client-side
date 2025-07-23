@@ -10,11 +10,9 @@ import {
   FaMapMarkerAlt,
   FaMoneyBillWave,
 } from "react-icons/fa";
-import useAuth from "../../hooks/useAuth";
 
 const AdvertisedProperties = () => {
   const axiosInstance = useAxios();
-  const { user } = useAuth();
 
   const { data: advertised = [], isLoading } = useQuery({
     queryKey: ["advertised-properties"],

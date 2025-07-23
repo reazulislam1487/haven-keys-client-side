@@ -97,7 +97,7 @@ const PropertyDetails = () => {
       <img
         src={property.image}
         alt={property.title}
-        className="w-full h-99 bg-cover object-cover rounded-xl mb-6 shadow"
+        className="w-full h-99 object-cover rounded-xl mb-6 shadow"
       />
 
       {/* Title & Location */}
@@ -210,7 +210,7 @@ const PropertyDetails = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                className="px-4 py-2 text-sm bg-[#FF6F3C] hover:bg-[#FFA987] text-white rounded-md"
                 onClick={handleAddReview}
               >
                 Submit

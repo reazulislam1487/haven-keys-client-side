@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
@@ -16,6 +16,9 @@ const AllProperties = () => {
   const { user } = useAuth();
   const instance = useAxiosSecure();
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["verified-properties"],
     queryFn: async () => {
@@ -24,7 +27,20 @@ const AllProperties = () => {
     },
   });
 
-  if (isLoading) return <Loading></Loading>;
+  if (isLoading) return <Loading />;
+
+  // Filter and sort logic
+  const filteredProperties = properties
+    .filter((property) =>
+      property.location.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      const aPrice = Number(a.minPrice);
+      const bPrice = Number(b.minPrice);
+      if (sortOrder === "lowToHigh") return aPrice - bPrice;
+      if (sortOrder === "highToLow") return bPrice - aPrice;
+      return 0;
+    });
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-10 bg-[#F8F8F8]">
@@ -32,8 +48,32 @@ const AllProperties = () => {
         All Verified Properties
       </h2>
 
+      {/* Search & Sort Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        {/* Search by Location */}
+        <input
+          type="text"
+          placeholder="Search by location..."
+          className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        {/* Sort Dropdown */}
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+        >
+          <option value="">Sort by price</option>
+          <option value="lowToHigh">Price: Low to High</option>
+          <option value="highToLow">Price: High to Low</option>
+        </select>
+      </div>
+
+      {/* Properties Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {properties.map((property) => (
+        {filteredProperties.map((property) => (
           <div
             key={property._id}
             className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden flex flex-col border border-gray-200"
@@ -50,7 +90,7 @@ const AllProperties = () => {
               </h3>
 
               <p className="text-[#6B7280] text-sm flex items-center gap-1 mb-2">
-                <FaMapMarkerAlt className="text-[#FF6F3C]" />{" "}
+                <FaMapMarkerAlt className="text-[#FF6F3C]" />
                 {property.location}
               </p>
 
