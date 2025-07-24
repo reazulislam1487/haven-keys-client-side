@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { FaBullseye, FaLink, FaRocket } from "react-icons/fa";
+import usePageTitle from "../../hooks/usePageTitle";
 
 const AboutUs = () => {
+  usePageTitle("About Us");
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white py-20 px-4">
       {/* Decorative SVG wave */}
@@ -28,10 +31,11 @@ const AboutUs = () => {
           About HavenKeys
         </h2>
         <p className="text-lg md:text-xl text-gray-900 max-w-3xl mx-auto leading-relaxed mb-12">
-          <strong className="text-gray-900">EstateVista</strong> is your trusted real estate
-          platform that simplifies property buying, selling, and renting. We connect
-          homeowners, buyers, and renters with the best opportunities, backed by
-          an intuitive, secure, and user-friendly experience.
+          <strong className="text-gray-900">EstateVista</strong> is your trusted
+          real estate platform that simplifies property buying, selling, and
+          renting. We connect homeowners, buyers, and renters with the best
+          opportunities, backed by an intuitive, secure, and user-friendly
+          experience.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -60,7 +64,9 @@ const AboutUs = () => {
               className="bg-gray-50 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow"
             >
               {card.icon}
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">{card.title}</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                {card.title}
+              </h3>
               <p className="text-gray-600">{card.text}</p>
             </motion.div>
           ))}

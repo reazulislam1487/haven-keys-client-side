@@ -17,7 +17,7 @@ const RequestedOffers = () => {
     queryKey: ["requestedOffers", user?.email],
     queryFn: async () => {
       const res = await instance.get(
-        `http://localhost:5000/offers-by-agent?agentEmail=${user.email}`
+        `/offers-by-agent?agentEmail=${user.email}`
       );
       return res.data;
     },
@@ -26,7 +26,7 @@ const RequestedOffers = () => {
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ offerId, status }) => {
-      return await instance.patch(`http://localhost:5000/offers/${offerId}`, {
+      return await instance.patch(`/offers/${offerId}`, {
         status,
       });
     },

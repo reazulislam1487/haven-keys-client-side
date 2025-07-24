@@ -80,7 +80,7 @@ const AddProperty = () => {
 
     try {
       const response = await instance.post(
-        "http://localhost:5000/properties",
+        "/properties",
         propertyData
       );
       if (response.data?.insertedId) {

@@ -53,20 +53,20 @@ const SliderPage = () => {
       <div className="absolute inset-0 bg-black/60 z-0" />
 
       {/* Fixed Middle Text Container */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 md:p-12 max-w-2xl text-center text-white shadow-2xl">
+      <div className="absolute inset-0 z-10 flex items-center justify-center px-2 sm:px-4">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-12 w-full max-w-xs sm:max-w-md md:max-w-2xl text-center text-white shadow-2xl">
           <Slider {...settings}>
             {slides.map((slide, index) => (
               <div key={index}>
-                <h2 className="text-3xl md:text-5xl font-bold mb-4 uppercase">
+                <h2 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3 sm:mb-4 uppercase leading-snug">
                   {slide.heading}
                 </h2>
-                <p className="text-gray-300 text-lg mb-6 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6 leading-relaxed">
                   {slide.subheading}
                 </p>
                 <button
                   onClick={handleNavigate}
-                  className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform"
+                  className="bg-white text-black cursor-pointer px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:scale-105 transition-transform"
                 >
                   {slide.buttonText}
                 </button>

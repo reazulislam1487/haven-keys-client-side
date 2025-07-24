@@ -11,8 +11,11 @@ import {
 } from "react-icons/fa";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../Shared/Loading";
+import usePageTitle from "../../hooks/usePageTitle";
 
 const AllProperties = () => {
+  usePageTitle("All Properties");
+
   const { user } = useAuth();
   const instance = useAxiosSecure();
 

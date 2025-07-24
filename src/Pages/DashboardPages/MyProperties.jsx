@@ -28,7 +28,7 @@ const MyProperties = () => {
     queryKey: ["properties", user?.email],
     queryFn: async () => {
       const { data } = await instance.get(
-        `http://localhost:5000/properties?agentEmail=${user.email}`
+        `/properties?agentEmail=${user.email}`
       );
       return data;
     },
@@ -37,7 +37,7 @@ const MyProperties = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
-      await instance.delete(`http://localhost:5000/properties/${id}`);
+      await instance.delete(`/properties/${id}`);
       return id;
     },
     onMutate: async (id) => {

@@ -17,7 +17,7 @@ const SoldProperties = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await instance.get(
-        `http://localhost:5000/agent-paid-properties/${user.email}`
+        `/agent-paid-properties/${user.email}`
       );
       return res.data;
     },

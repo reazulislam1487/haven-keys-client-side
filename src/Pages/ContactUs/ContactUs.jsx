@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import usePageTitle from "../../hooks/usePageTitle";
 
 const ContactUs = () => {
+  usePageTitle("Contact Us");
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white py-20 px-4">
       {/* Decorative SVG wave at top */}

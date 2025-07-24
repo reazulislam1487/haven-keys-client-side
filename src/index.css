@@ -23,7 +23,7 @@ body {
 }
 
 .active {
-  color: blue;
+  color: orange;
 }
 .slick-prev:before,
 .slick-next:before {

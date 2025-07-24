@@ -23,7 +23,7 @@ const UpdateProperty = () => {
   const { data: property, isLoading } = useQuery({
     queryKey: ["property", id],
     queryFn: async () => {
-      const res = await instance.get(`http://localhost:5000/properties/${id}`);
+      const res = await instance.get(`/properties/${id}`);
       return res.data;
     },
     enabled: !!id,
@@ -54,7 +54,7 @@ const UpdateProperty = () => {
   const updateMutation = useMutation({
     mutationFn: async (updatedData) => {
       const res = await instance.put(
-        `http://localhost:5000/properties/${id}`,
+        `/properties/${id}`,
         updatedData
       );
       return res.data;
