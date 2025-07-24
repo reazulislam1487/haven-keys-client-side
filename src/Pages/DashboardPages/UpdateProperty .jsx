@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAxios from "../../hooks/useAxios";
+import axios from "axios";
 
 const UpdateProperty = () => {
   const { id } = useParams();
@@ -12,7 +12,6 @@ const UpdateProperty = () => {
   const queryClient = useQueryClient();
   const [previewImg, setPreviewImg] = useState("");
   const instance = useAxiosSecure();
-  const axiosInstance = useAxios();
 
   const {
     register,
@@ -24,9 +23,7 @@ const UpdateProperty = () => {
   const { data: property, isLoading } = useQuery({
     queryKey: ["property", id],
     queryFn: async () => {
-      const res = await axiosInstance.get(
-        `http://localhost:5000/properties/${id}`
-      );
+      const res = await instance.get(`http://localhost:5000/properties/${id}`);
       return res.data;
     },
     enabled: !!id,
@@ -47,7 +44,7 @@ const UpdateProperty = () => {
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("image", file);
-    const { data } = await axiosInstance.post(
+    const { data } = await axios.post(
       `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_KEY}`,
       formData
     );

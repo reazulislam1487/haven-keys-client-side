@@ -14,6 +14,7 @@ import {
 } from "react-icons/hi";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../Shared/Loading";
+import { FaRegHeart } from "react-icons/fa";
 
 const Wishlist = () => {
   const { user } = useAuth();
@@ -45,13 +46,14 @@ const Wishlist = () => {
         Loading wishlist...
       </p>
     );
-  if (!Array.isArray(wishlist))
+  if (!Array.isArray(wishlist)) return <Loading></Loading>;
+  if (wishlist.length === 0)
     return (
-      <p className="text-center text-[#E74C3C] text-lg mt-10 font-semibold">
-        Failed to load wishlist.
-      </p>
+      <h1 className="text-center text-gray-500 mt-10 text-xl flex flex-col items-center gap-2">
+        <FaRegHeart className="text-4xl text-red-400" />
+        There is no Wishlist Found
+      </h1>
     );
-  if (wishlist.length === 0) return <Loading></Loading>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-0 mt-8">

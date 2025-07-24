@@ -5,12 +5,13 @@ import axios from "axios";
 
 import usePageTitle from "../../hooks/usePageTitle";
 import useAuth from "../../hooks/useAuth";
-import useAxios from "../../hooks/useAxios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddProperty = () => {
   usePageTitle("Add Property");
 
-  const axiosInstance = useAxios();
+  const instance = useAxiosSecure();
+
   const { user } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [imageURL, setImageURL] = useState("");
@@ -35,7 +36,7 @@ const AddProperty = () => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await axiosInstance.post(
+      const res = await axios.post(
         "https://api.imgbb.com/1/upload?key=8d037ace4968014a12f45e0c0cde4bd4",
         formData
       );
@@ -78,7 +79,7 @@ const AddProperty = () => {
     };
 
     try {
-      const response = await axios.post(
+      const response = await instance.post(
         "http://localhost:5000/properties",
         propertyData
       );
