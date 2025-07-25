@@ -74,15 +74,13 @@ const AddProperty = () => {
       maxPrice,
       image: imageURL,
       agentName: user.displayName,
+      agentPhoto: user.photoURL,
       agentEmail: user.email,
       createdAt: new Date(),
     };
 
     try {
-      const response = await instance.post(
-        "/properties",
-        propertyData
-      );
+      const response = await instance.post("/properties", propertyData);
       if (response.data?.insertedId) {
         Swal.fire("Success!", "Property added successfully", "success");
         reset();

@@ -99,7 +99,7 @@ const AllProperties = () => {
 
               <div className="flex items-center gap-3 my-3">
                 <img
-                  src={user?.photoURL || "/default-agent.jpg"}
+                  src={property.agentPhoto || user?.photoURL}
                   alt={property.agentName}
                   className="w-9 h-9 rounded-full object-cover border"
                 />
