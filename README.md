@@ -77,7 +77,6 @@ havenkeys_readme = """# 🏠 HavenKeys
   "tanstack/react-query": "^4.29.2",
   "stripe": "^11.0.0"
 }
-</details>
 
 ```
 
