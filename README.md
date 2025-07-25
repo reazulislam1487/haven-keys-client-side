@@ -77,14 +77,10 @@ havenkeys_readme = """# 🏠 HavenKeys
   "tanstack/react-query": "^4.29.2",
   "stripe": "^11.0.0"
 }
-
-```
-
 </details>
 
----
-
-### 💻 Getting Started (Run Locally)
+````
+#### 💻 Getting Started (Run Locally)
 
 #### 📁 Clone and install client:
 
@@ -93,7 +89,7 @@ git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-rea
 cd b11a11-client-side-reazulislam1487-1
 npm install
 npm run dev
-```
+````
 
 #### 📁 Clone and install server:
 
@@ -124,4 +120,3 @@ JWT_SECRET=your_jwt_secret
 ```
 
 ---
-````
