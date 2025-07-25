@@ -1,8 +1,8 @@
 # New HavenKeys README content
 
-havenkeys_readme = """# 🏠 HavenKeys
+HavenKeys
 
-![HavenKeys Screenshot](https://i.postimg.cc/CMZttcGK/Screenshot-2025-06-25-053132.png)
+![HavenKeys Screenshot](https://i.postimg.cc/BnpnZSCm/Screenshot-2025-07-26-000143.png)
 
 ---
 
@@ -14,9 +14,9 @@ havenkeys_readme = """# 🏠 HavenKeys
 
 ### 🌐 Live & Source Code Links
 
-- 🔗 **Live Site:** [https://havenkeys.vercel.app](https://havenkeys.vercel.app)
-- 💻 **Client Repository:** [GitHub - Client](https://github.com/reazulislam1487/havenkeys-client)
-- 🛠️ **Server Repository:** [GitHub - Server](https://github.com/reazulislam1487/havenkeys-server)
+- 🔗 **Live Site:** [https://havenkeys.vercel.app](https://haven-keys.web.app/)
+- 💻 **Client Repository:** [GitHub - Client](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-reazulislam1487)
+- 🛠️ **Server Repository:** [GitHub - Server](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-reazulislam1487)
 
 ---
 
@@ -27,7 +27,7 @@ havenkeys_readme = """# 🏠 HavenKeys
 - React.js
 - Tailwind CSS
 - Firebase Authentication
-- React Router DOM
+- React Router
 - React Hook Form
 - SweetAlert2
 - Swiper.js
@@ -77,7 +77,6 @@ havenkeys_readme = """# 🏠 HavenKeys
   "tanstack/react-query": "^4.29.2",
   "stripe": "^11.0.0"
 }
-
 ```
 
 #### 💻 Getting Started (Run Locally)
@@ -85,8 +84,8 @@ havenkeys_readme = """# 🏠 HavenKeys
 #### 📁 Clone and install client:
 
 ```bash
-git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-reazulislam1487-1.git
-cd b11a11-client-side-reazulislam1487-1
+git clone https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-reazulislam1487
+cd b11a12-client-side-reazulislam1487
 npm install
 npm run dev
 ```
@@ -94,8 +93,8 @@ npm run dev
 #### 📁 Clone and install server:
 
 ```bash
-git clone https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-reazulislam1487-1.git
-cd b11a11-server-side-reazulislam1487-1
+git clone https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-reazulislam1487
+cd b11a12-server-side-reazulislam1487
 npm install
 npm start
 ```
@@ -117,6 +116,8 @@ VITE_API_URL=http://localhost:5000
 PORT=5000
 DB_URL=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+STRIPE_SECRET_KEY=your_stripe_secret
+
 ```
 
 ---
