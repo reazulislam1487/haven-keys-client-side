@@ -61,7 +61,7 @@ havenkeys_readme = """# 🏠 HavenKeys
 <details>
 <summary>Click to expand</summary>
 
-````json
+```json
 "dependencies": {
   "axios": "^1.5.0",
   "firebase": "^11.0.0",
@@ -79,7 +79,8 @@ havenkeys_readme = """# 🏠 HavenKeys
 }
 </details>
 
-````
+```
+
 #### 💻 Getting Started (Run Locally)
 
 #### 📁 Clone and install client:
@@ -89,7 +90,7 @@ git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-rea
 cd b11a11-client-side-reazulislam1487-1
 npm install
 npm run dev
-````
+```
 
 #### 📁 Clone and install server:
 
