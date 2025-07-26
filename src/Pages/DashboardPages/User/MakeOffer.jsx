@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useUserRole from "../../../hooks/useUserRole";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../Shared/Loading";
 
 const MakeOffer = () => {
   const { id } = useParams();
@@ -82,12 +83,7 @@ const MakeOffer = () => {
     }
   };
 
-  if (loading)
-    return (
-      <p className="text-center mt-10 text-gray-500">
-        Loading property details...
-      </p>
-    );
+  if (loading) return <Loading></Loading>;
   if (!property)
     return (
       <p className="text-center mt-10 text-red-500">Property not found.</p>

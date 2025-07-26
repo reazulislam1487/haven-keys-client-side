@@ -1,17 +1,14 @@
 import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useUserRole from "../../../hooks/useUserRole";
+import Loading from "../../Shared/Loading";
 
 const AdminProfile = () => {
   const { user } = useAuth();
   const { role, isRoleLoading } = useUserRole();
 
   if (!user || isRoleLoading) {
-    return (
-      <div className="text-center text-[#636e72] mt-20 text-lg font-medium animate-pulse">
-        Loading admin profile...
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   const isAdmin = role && role !== "user";

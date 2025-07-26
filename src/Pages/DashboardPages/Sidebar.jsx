@@ -117,9 +117,11 @@ const Sidebar = () => {
         <div className="flex flex-col h-full px-6 py-8">
           {/* Brand */}
           <div className="text-3xl font-bold mb-10 text-center tracking-tight select-none">
-            <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-md">
-              Dashboard
-            </span>
+            <Link to="/">
+              <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-md">
+                Dashboard
+              </span>
+            </Link>
           </div>
 
           {/* Links */}

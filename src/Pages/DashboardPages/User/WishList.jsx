@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 
@@ -40,13 +39,11 @@ const Wishlist = () => {
     },
   });
 
-  if (isLoading)
+  if (isLoading) return <Loading></Loading>;
+  if (!Array.isArray(wishlist))
     return (
-      <p className="text-center text-[#636e72] text-lg mt-10 animate-pulse">
-        Loading wishlist...
-      </p>
+      <p className="text-center text-red-500 mt-10">Invalid wishlist data</p>
     );
-  if (!Array.isArray(wishlist)) return <Loading></Loading>;
   if (wishlist.length === 0)
     return (
       <h1 className="text-center text-gray-500 mt-10 text-xl flex flex-col items-center gap-2">

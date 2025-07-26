@@ -33,10 +33,10 @@ const PropertyBought = () => {
 
   const offers = Array.isArray(offersData) ? offersData : [];
 
-  if (isLoading)
-    return <p className="text-center text-[#2C3E50]">Loading offers...</p>;
+  if (isLoading) return <Loading></Loading>;
 
-  if (isError) return <Loading></Loading>;
+  if (isError)
+    return <p className="text-red-500 text-center">Error: {error.message}</p>;
 
   if (offers.length === 0)
     return <p className="text-center text-gray-600">No offers found.</p>;

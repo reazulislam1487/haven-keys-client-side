@@ -131,7 +131,7 @@ const Login = () => {
               whileHover={{ scale: 1.03 }}
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition"
+              className="w-full bg-orange-500 cursor-pointer text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition"
             >
               {isSubmitting ? "Logging in..." : "Sign In"}
             </motion.button>

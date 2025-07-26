@@ -2,17 +2,14 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useUserRole from "../../../hooks/useUserRole";
 import { FaUserCircle } from "react-icons/fa";
+import Loading from "../../Shared/Loading";
 
 const MyProfile = () => {
   const { user } = useAuth();
   const { role, isRoleLoading } = useUserRole();
 
   if (!user || isRoleLoading) {
-    return (
-      <div className="text-center text-[#636e72] mt-20 text-lg animate-pulse">
-        Loading user info...
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   const displayRole = role && role !== "user";

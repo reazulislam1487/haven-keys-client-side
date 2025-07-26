@@ -8,19 +8,22 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
+      <div className="min-h-screen flex flex-col justify-center items-center bg-[#F1F5F9]">
         <div
-          className="w-16 h-16 rounded-full animate-spin"
+          className="w-16 h-16 rounded-full animate-spin shadow-xl"
           style={{
-            borderWidth: "4px",
+            borderWidth: "5px",
             borderStyle: "dashed",
-            borderColor: "#2F855A", // primary color
-            borderTopColor: "#F6C26B", // accent color for spinning highlight
-            borderRightColor: "#2F855A",
-            borderBottomColor: "#2F855A",
-            borderLeftColor: "#2F855A",
+            borderColor: "#3B82F6", // Primary Blue
+            borderTopColor: "#FACC15", // Accent Yellow
+            borderRightColor: "#3B82F6",
+            borderBottomColor: "#3B82F6",
+            borderLeftColor: "#3B82F6",
           }}
         ></div>
+        <p className="mt-4 text-[#1E293B] text-lg font-semibold tracking-wide animate-pulse">
+          Securing access...
+        </p>
       </div>
     );
   }

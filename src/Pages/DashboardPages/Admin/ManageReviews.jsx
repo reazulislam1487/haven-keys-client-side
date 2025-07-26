@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useUserRole from "../../../hooks/useUserRole";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../Shared/Loading";
 
 const ManageReviews = () => {
   const instance = useAxiosSecure();
@@ -34,12 +35,7 @@ const ManageReviews = () => {
     },
   });
 
-  if (isLoading)
-    return (
-      <p className="text-center text-[#636e72] mt-10 text-lg animate-pulse">
-        Loading reviews...
-      </p>
-    );
+  if (isLoading) return <Loading> </Loading>;
 
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4">

@@ -14,6 +14,7 @@ import {
   FaEdit,
   FaTrash,
 } from "react-icons/fa";
+import Loading from "../Shared/Loading";
 
 const MyProperties = () => {
   const { user } = useAuth();
@@ -75,11 +76,7 @@ const MyProperties = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-[50vh]">
-        <span className="loading loading-spinner" />
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   if (isError) {

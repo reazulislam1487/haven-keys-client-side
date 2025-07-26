@@ -113,8 +113,8 @@ const PropertyDetails = () => {
 
       {/* Description */}
       <p className="text-gray-700 mb-6 leading-relaxed">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-        vel...
+        Spacious, sunny, and perfect for families—close to schools, parks, and
+        shops...
       </p>
 
       {/* Agent Info */}

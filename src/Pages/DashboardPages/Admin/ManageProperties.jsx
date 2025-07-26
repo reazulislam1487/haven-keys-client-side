@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../Shared/Loading";
 
 const ManageProperties = () => {
   const queryClient = useQueryClient();
@@ -34,12 +35,7 @@ const ManageProperties = () => {
     },
   });
 
-  if (isLoading)
-    return (
-      <p className="text-center mt-10 text-gray-500 animate-pulse text-lg">
-        Loading properties...
-      </p>
-    );
+  if (isLoading) return <Loading></Loading>;
 
   return (
     <div className="px-4 py-10 max-w-7xl mx-auto">

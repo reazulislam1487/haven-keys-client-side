@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../Shared/Loading";
 
 const SoldProperties = () => {
   const { user } = useAuth();
@@ -16,19 +17,13 @@ const SoldProperties = () => {
     queryKey: ["soldProperties", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await instance.get(
-        `/agent-paid-properties/${user.email}`
-      );
+      const res = await instance.get(`/agent-paid-properties/${user.email}`);
       return res.data;
     },
   });
 
   if (isLoading) {
-    return (
-      <p className="text-center text-[#636e72] mt-20 text-lg font-semibold animate-pulse">
-        Loading sold properties...
-      </p>
-    );
+    return <Loading></Loading>;
   }
 
   if (isError) {

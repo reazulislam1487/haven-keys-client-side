@@ -1,17 +1,14 @@
 import React from "react";
 import useAuth from "../../hooks/useAuth";
 import useUserRole from "../../hooks/useUserRole";
+import Loading from "../Shared/Loading";
 
 const AgentProfile = () => {
   const { user } = useAuth();
   const { role, roleLoading } = useUserRole();
 
   if (!user || roleLoading) {
-    return (
-      <div className="text-center text-[#636e72] mt-20 text-lg font-medium animate-pulse">
-        Loading agent profile...
-      </div>
-    );
+    return <Loading></Loading>;
   }
 
   const isAgent = role && role !== "user";

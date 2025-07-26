@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import axios from "axios";
+import Loading from "../Shared/Loading";
 
 const UpdateProperty = () => {
   const { id } = useParams();
@@ -53,10 +54,7 @@ const UpdateProperty = () => {
 
   const updateMutation = useMutation({
     mutationFn: async (updatedData) => {
-      const res = await instance.put(
-        `/properties/${id}`,
-        updatedData
-      );
+      const res = await instance.put(`/properties/${id}`, updatedData);
       return res.data;
     },
     onSuccess: () => {
@@ -102,11 +100,7 @@ const UpdateProperty = () => {
   };
 
   if (isLoading) {
-    return (
-      <p className="text-center text-[#636e72] mt-20 text-lg font-medium animate-pulse">
-        Loading property...
-      </p>
-    );
+    return <Loading></Loading>;
   }
 
   return (

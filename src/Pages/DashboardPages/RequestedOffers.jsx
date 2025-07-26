@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../Shared/Loading";
 
 const RequestedOffers = () => {
   const { user } = useAuth();
@@ -40,11 +41,7 @@ const RequestedOffers = () => {
   });
 
   if (isLoading) {
-    return (
-      <p className="text-center text-[#636e72] mt-10 animate-pulse">
-        Loading offers...
-      </p>
-    );
+    return <Loading></Loading>;
   }
 
   if (isError) {

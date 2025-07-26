@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../Shared/Loading";
 
 const ManageUsers = () => {
   const queryClient = useQueryClient();
@@ -44,12 +45,7 @@ const ManageUsers = () => {
     }
   };
 
-  if (isLoading)
-    return (
-      <p className="text-center mt-10 text-gray-600 text-lg font-medium animate-pulse">
-        Loading users...
-      </p>
-    );
+  if (isLoading) return <Loading></Loading>;
 
   return (
     <div className="overflow-x-auto px-4 py-10 max-w-6xl mx-auto">
