@@ -6,6 +6,7 @@ import AdvertisedProperties from "./AdvertisedProperties";
 import WhyChooseUs from "./WhyChooseUs";
 import Testimonials from "./Testimonials";
 import LatestUserReviews from "./LatestUserReviews";
+import DiscoverNeighborhood from "./DiscoverNeighborhood ";
 const Home = () => {
   usePageTitle("Home");
 
@@ -17,6 +18,7 @@ const Home = () => {
         <LatestUserReviews></LatestUserReviews>
         <Testimonials></Testimonials>
         <WhyChooseUs></WhyChooseUs>
+        <DiscoverNeighborhood></DiscoverNeighborhood>
       </div>
     </main>
   );

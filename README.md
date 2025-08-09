@@ -15,8 +15,8 @@ HavenKeys
 ### 🌐 Live & Source Code Links
 
 - 🔗 **Live Site:** [https://havenkeys.vercel.app](https://haven-keys.web.app/)
-- 💻 **Client Repository:** [GitHub - Client](https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-reazulislam1487)
-- 🛠️ **Server Repository:** [GitHub - Server](https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-reazulislam1487)
+- 💻 **Client Repository:** [GitHub - Client](https://github.com/reazulislam1487/haven-keys-client-side)
+- 🛠️ **Server Repository:** [GitHub - Server](https://github.com/reazulislam1487/haven-keys-server-side)
 
 ---
 
