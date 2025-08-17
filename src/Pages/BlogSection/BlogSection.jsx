@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import usePageTitle from "../../hooks/usePageTitle";
+// add a blog section with some sample posts
 
 const blogPosts = [
   {
