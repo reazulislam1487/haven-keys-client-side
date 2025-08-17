@@ -8,6 +8,7 @@ const ContactUs = () => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white py-20 px-4">
       <div className="absolute -top-24 left-0 w-full">
+        {/* Decorative SVG Background */}
         <svg
           viewBox="0 0 1440 320"
           className="w-full h-40 opacity-20"
