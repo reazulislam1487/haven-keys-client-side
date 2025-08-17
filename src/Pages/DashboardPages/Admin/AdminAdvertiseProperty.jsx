@@ -50,6 +50,7 @@ const AdminAdvertiseProperty = () => {
       </h2>
 
       <div className="overflow-x-auto rounded-lg shadow border border-gray-100 bg-white">
+        {/* table */}
         <table className="table w-full text-sm">
           <thead className="bg-[#F4F6F8] text-[#2C3E50] uppercase font-semibold text-xs">
             <tr>
