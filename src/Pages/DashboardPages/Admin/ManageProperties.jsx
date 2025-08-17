@@ -34,6 +34,7 @@ const ManageProperties = () => {
       Swal.fire("Rejected!", "Property has been rejected.", "info");
     },
   });
+  // check if data is loading
 
   if (isLoading) return <Loading></Loading>;
 
