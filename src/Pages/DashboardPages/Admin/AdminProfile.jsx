@@ -6,7 +6,7 @@ import Loading from "../../Shared/Loading";
 const AdminProfile = () => {
   const { user } = useAuth();
   const { role, isRoleLoading } = useUserRole();
-
+// checl if user is not logged in or role is still loading
   if (!user || isRoleLoading) {
     return <Loading></Loading>;
   }
