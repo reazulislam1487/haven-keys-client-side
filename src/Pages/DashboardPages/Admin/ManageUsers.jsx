@@ -44,7 +44,7 @@ const ManageUsers = () => {
       }
     }
   };
-
+// check if data is loading
   if (isLoading) return <Loading></Loading>;
 
   return (
