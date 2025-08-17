@@ -4,7 +4,7 @@ import usePageTitle from "../../hooks/usePageTitle";
 
 const ContactUs = () => {
   usePageTitle("Contact Us");
-
+// add a background gradient and some padding
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white py-20 px-4">
       <div className="absolute -top-24 left-0 w-full">
