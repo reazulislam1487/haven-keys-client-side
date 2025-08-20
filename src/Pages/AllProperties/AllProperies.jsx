@@ -46,7 +46,7 @@ const AllProperties = () => {
     });
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10 bg-[#F8F8F8]">
+    <section className="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-[#F8F8F8]">
       <h2 className="text-3xl font-bold mb-8 text-center text-[#2D2D2D]">
         All Verified Properties
       </h2>
@@ -135,7 +135,7 @@ const AllProperties = () => {
 
               <Link
                 to={`/property-details/${property._id}`}
-                className="mt-auto text-center bg-[#FF6F3C] hover:bg-[#FFA987] text-white text-sm font-medium py-2 px-4 rounded-md transition duration-300 mt-4 flex items-center justify-center gap-2"
+                className=" text-center bg-[#FF6F3C] hover:bg-[#FFA987] text-white text-sm font-medium py-2 px-4 rounded-md transition duration-300 mt-4 flex items-center justify-center gap-2"
               >
                 View Details <FaArrowRight />
               </Link>
