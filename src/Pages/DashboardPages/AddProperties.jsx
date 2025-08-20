@@ -109,7 +109,7 @@ const AddProperty = () => {
             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
               errors.title
                 ? "border-[#E74C3C] focus:ring-[#E74C3C]"
-                : "border-[#00B894] focus:ring-[#00B894]"
+                : "border-[#E74C3C] focus:ring-[#E74C3C]"
             }`}
             {...register("title", { required: "Title is required" })}
           />
@@ -131,7 +131,7 @@ const AddProperty = () => {
             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
               errors.location
                 ? "border-[#E74C3C] focus:ring-[#E74C3C]"
-                : "border-[#00B894] focus:ring-[#00B894]"
+                : "border-[#E74C3C] focus:ring-[#E74C3C]"
             }`}
             {...register("location", { required: "Location is required" })}
           />
@@ -154,7 +154,7 @@ const AddProperty = () => {
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.minPrice
                   ? "border-[#E74C3C] focus:ring-[#E74C3C]"
-                  : "border-[#00B894] focus:ring-[#00B894]"
+                  : "border-[#E74C3C] focus:ring-[#E74C3C]"
               }`}
               {...register("minPrice", {
                 required: "Min price is required",
@@ -170,7 +170,7 @@ const AddProperty = () => {
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.maxPrice
                   ? "border-[#E74C3C] focus:ring-[#E74C3C]"
-                  : "border-[#00B894] focus:ring-[#00B894]"
+                  : "border-[#E74C3C] focus:ring-[#E74C3C]"
               }`}
               {...register("maxPrice", {
                 required: "Max price is required",
@@ -198,7 +198,7 @@ const AddProperty = () => {
             accept="image/*"
             required
             onChange={handleImageUpload}
-            className="file-input file-input-bordered w-full rounded-md border-[#00B894]"
+            className="file-input file-input-bordered w-full rounded-md border-[#E74C3C]"
           />
         </div>
 
@@ -232,7 +232,7 @@ const AddProperty = () => {
         <button
           type="submit"
           disabled={isSubmitting || uploading || !imageURL}
-          className="w-full bg-[#2C3E50] cursor-pointer hover:bg-[#263544f1] text-white py-3 rounded-lg font-semibold transition duration-200"
+          className="w-full bg-[#2C3E50] cursor-pointer hover:bg-[#334558f1] text-white py-3 rounded-lg font-semibold transition duration-200"
         >
           {uploading
             ? "Uploading Image..."
